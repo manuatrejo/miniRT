@@ -41,6 +41,7 @@ Una estructura con información común y listas de objetos.
 (buscar las mejores estructuras para esto)
 
 Funciones para parsear:
+	ATOF(libft)
 	Coordenadas
 	Colores
 	Rangos
