@@ -20,7 +20,7 @@ t_coord3	vec_sub(t_coord3 vec1, t_coord3 vec2)
 	return (result);
 }
 
-t_coord3	vec_x_scalar(t_coord3 vec, double scalar)
+t_coord3	vec_x_scalar(t_coord3 vec, t_real scalar)
 {
 	t_coord3	result;
 

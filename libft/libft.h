@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:13:46 by maanguit          #+#    #+#             */
-/*   Updated: 2025/10/01 20:47:45 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/17 20:18:09 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stddef.h>
 # include <limits.h>
 # include <unistd.h>
+# include <stdbool.h>
 # include "get_next_line.h"
 
 typedef struct s_list
@@ -67,6 +68,7 @@ t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstnew(void *content);
 int		ft_lstsize(t_list *lst);
+double	ft_atof(char *s);
 
 char	*get_next_line(int fd);
 

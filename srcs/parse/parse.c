@@ -49,3 +49,45 @@ Funciones para parsear:
 	Una línea
 	Bucle que consume líneas
 */
+
+#include "libft.h"
+
+void	parse_line()
+{
+	
+}
+
+int	*parse_file(char *file)
+{
+	char	*line;
+	int		*estruc;
+	int		fd;
+
+	if (!valid_filename(file))
+		return (NULL);
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		return (perror("Parsing:"), NULL);
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (!parse_line(&estruc, fd))
+			return (free(line), NULL);
+		free(line);
+		line = get_next_line(fd);
+	}
+}
+
+bool	valid_filename(char *file)
+{
+	int	i;
+
+	i = 0;
+	while (file[i] && file[i] != '.')
+		i++;
+	if (i == 0 || ft_strncmp(file + i, ".rt", 3) != 0)
+		return (false);
+	if (*(file + i + 3) != '\0')
+		return (false);
+	return (true);
+}
