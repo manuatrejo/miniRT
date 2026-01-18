@@ -6,13 +6,13 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:12:56 by maanguit          #+#    #+#             */
-/*   Updated: 2025/09/30 17:12:57 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/18 22:32:40 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(char *s1, char *s2, size_t n)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	while (0 < n && *s2 != '\0' && *s1 == *s2)
 	{

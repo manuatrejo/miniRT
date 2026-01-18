@@ -6,13 +6,13 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 19:17:09 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/17 20:06:44 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/18 22:32:40 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-double	ft_atof(char *s)
+double	ft_atof(const char *s)
 {
 	double	integer;
 	double	decimal;

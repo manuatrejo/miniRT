@@ -50,17 +50,22 @@ Funciones para parsear:
 	Bucle que consume líneas
 */
 
-#include "libft.h"
+#include "miniRT.h"
 
-void	parse_line()
+void	*parse_line(t_scene **scene, char *line)
 {
-	
+	char	**split_l;
+
+	split_l = ft_split(line, ' ');
+	if (!split_l)
+		return (NULL);
+	if (ft_strcmp(split_l[0], "A"))
 }
 
-int	*parse_file(char *file)
+t_scene	*parse_file(char *file)
 {
+	t_scene	*scene;
 	char	*line;
-	int		*estruc;
 	int		fd;
 
 	if (!valid_filename(file))
@@ -68,10 +73,11 @@ int	*parse_file(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (perror("Parsing:"), NULL);
+	scene = ft_calloc(sizeof(t_scene), 1);
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!parse_line(&estruc, fd))
+		if (!parse_line(&scene, fd))
 			return (free(line), NULL);
 		free(line);
 		line = get_next_line(fd);
@@ -80,14 +86,10 @@ int	*parse_file(char *file)
 
 bool	valid_filename(char *file)
 {
-	int	i;
+	int	len;
 
-	i = 0;
-	while (file[i] && file[i] != '.')
-		i++;
-	if (i == 0 || ft_strncmp(file + i, ".rt", 3) != 0)
-		return (false);
-	if (*(file + i + 3) != '\0')
+	len = ft_strlen(file);
+	if (len < 3 || ft_strncmp(file + len - 3, ".rt", 3) != 0)
 		return (false);
 	return (true);
 }
