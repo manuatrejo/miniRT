@@ -41,6 +41,8 @@ Una estructura con información común y listas de objetos.
 (buscar las mejores estructuras para esto)
 
 Funciones para parsear:
+	Mensajes de error cuando algo no funcione
+
 	ATOF(libft)
 	Coordenadas
 	Colores
@@ -52,14 +54,59 @@ Funciones para parsear:
 
 #include "miniRT.h"
 
-void	*parse_line(t_scene **scene, char *line)
+bool	parse_color(t_color *color, char *str)
+{
+	char	**c_split;
+
+	c_split = ft_split(str, ',');
+	if (!c_split)
+		return (false);
+	if (!(c_split[0] && c_split[1] && c_split[2]) || c_split[3])
+		return (false);
+	color->red = ft_atoi(c_split[0]);
+	color->blue = ft_atoi(c_split[1]);
+	color->green = ft_atoi(c_split[2]);
+	if (color->red > 255 || color->red < 0 || color->blue > 255 || color->blue < 0
+		|| color->green > 255 || color->green < 0)
+		return (false);
+	return (true);
+}
+
+bool	parse_amb_light(t_scene **scene, char **split_l)
+{
+	double	intensity;
+
+	intensity = ft_atof(split_l[1]);
+	if (intensity < 0.0 || intensity > 1.0)
+		return (false);
+	(*scene)->a_light.intensity = intensity;
+	if (!parse_color(&(*scene)->a_light.color, split_l[2]))
+		return (false);
+}
+//False cuando falla else true
+bool	parse_line(t_scene **scene, char *line)
 {
 	char	**split_l;
 
 	split_l = ft_split(line, ' ');
 	if (!split_l)
 		return (NULL);
-	if (ft_strcmp(split_l[0], "A"))
+	if (ft_strcmp(split_l[0], "A") == 0)
+		return (free_str_array(split_l), parse_amb_light(scene, split_l));
+	else if (ft_strcmp(split_l[0], "C") == 0)
+		return (free_str_array(split_l), parse_camera(scene, split_l));
+	else if (ft_strcmp(split_l[0], "L") == 0)
+		return (free_str_array(split_l), parse_light(scene, split_l));
+	else if (ft_strcmp(split_l[0], "sp") == 0)
+		return (free_str_array(split_l), parse_sphere(scene, split_l));
+	else if (ft_strcmp(split_l[0], "pl") == 0)
+		return (free_str_array(split_l), parse_plane(scene, split_l));
+	else if (ft_strcmp(split_l[0], "cy") == 0)
+		return (free_str_array(split_l), parse_cylinder(scene, split_l));
+	else if (split_l[0][0] == '\n')
+		return (free_str_array(split_l), true);
+	free_str_array(split_l);
+	return (false);
 }
 
 t_scene	*parse_file(char *file)
@@ -77,8 +124,8 @@ t_scene	*parse_file(char *file)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!parse_line(&scene, fd))
-			return (free(line), NULL);
+		if (!parse_line(&scene, line))
+			return (free(line), free_scene(scene), NULL);
 		free(line);
 		line = get_next_line(fd);
 	}

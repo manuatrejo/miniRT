@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:13:46 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/18 22:32:40 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/19 15:47:32 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ t_list	*ft_lstlast(t_list *lst);
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list	*ft_lstnew(void *content);
 int		ft_lstsize(t_list *lst);
-double		ft_atof(const char *str);
+double	ft_atof(const char *str);
+void	free_str_array(char **array);
 
 char	*get_next_line(int fd);
 
