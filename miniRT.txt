@@ -1,26 +1,24 @@
-HOY:
-	Intersecciones rayo-objeto.
-
-
-
 Partes principales de miniRT:
 
-Parseo, intersecciones con objetos, iluminación
+1 Crear un rayo para cada pixel
+
+2 Pintar objeto cuando el rayo choca con él
+
+3 Calcular iluminación sobre este punto
 
 
-1 Rayo
-2 Cámara
-3 Objetos (con los que interactua el rayo): difusos, metálicos y dieléctricos
-4 Imagen
-5 Antialaising
+Info:
 
+Pedir a la IA que me resuma Iluminación Phong, reflexión sencilla y sombras simples.
+
+Buscar opciones más avanzadas y para iluminación y si son asequibles aplicarlas.
+
+
+Objetos (con los que interactua el rayo): difusos, metálicos y dieléctricos
+Antialaising
 
 Automatizar procesos que me puedan ahorrar tiempo.
 (Makefile, debugger)
 
-
-Crear un rayo para cada pixel
-
-Gestionar cámara
-
-Pintar objeto cuando el rayo choca con él
+Añadir al parseo una opción para definir la reflexión, refracción o imagen de un objeto
+y otras propiedades que tengamos predefinidas o añadir esto al parseo.
