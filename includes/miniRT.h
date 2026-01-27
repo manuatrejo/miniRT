@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/23 23:00:37 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/28 00:40:24 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define WIDTH 1000
 
 # ifndef TYPE_REAL
-#  define TYPE_REAL 
+#  define TYPE_REAL
 
 typedef float		t_real;
 
@@ -55,13 +55,13 @@ typedef struct s_color
 typedef struct s_ray
 {
 	t_point	orig;
-	t_dir	dir;//always normalized
+	t_dir	dir;
 }	t_ray;
 
 typedef struct s_camera
 {
 	t_point	orig;
-	t_dir	dir;//always normalized
+	t_dir	dir;
 	double	fov;
 	bool	defined;
 }	t_camera;
@@ -117,6 +117,16 @@ typedef struct s_scene
 	t_cylind	*cylinder;
 }	t_scene;
 
+typedef struct s_vport
+{
+	t_real	vport_h;
+	t_real	vport_w;
+	t_dir	up;
+	t_dir	right;
+	int		w_iter;
+	int		h_iter;
+}	t_vport;
+
 t_coord3	vec_add(t_coord3 vec1, t_coord3 vec2);
 t_coord3	vec_sub(t_coord3 vec1, t_coord3 vec2);
 t_coord3	vec_x_scalar(t_coord3 vec, t_real scalar);
@@ -124,6 +134,7 @@ t_coord3	vec_product(t_coord3 vec1, t_coord3 vec2);
 t_coord3	vec_normalize(t_coord3 v);
 t_coord3	vec_cross_prod(t_coord3 u, t_coord3 v);
 t_real		vec_length(t_coord3 v);
+bool		equal_vecs(t_dir u, t_dir v);
 t_scene		*parse_file(char *file);
 
 void		free_scene(t_scene *scene);

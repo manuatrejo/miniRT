@@ -1,7 +1,7 @@
 NAME		:= miniRT
 
 CC		:= cc
-CFLAGS	:= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS	:= -Wall -Wextra -Werror -g -fsanitize=address -lm
 
 INCLUDES	:= -I./includes -I./libft
 
@@ -17,7 +17,8 @@ SRCS	:= \
 	srcs/parse/parse_objects.c \
 	srcs/parse/scene_free.c \
 	srcs/vec_ops/vec_ops1.c \
-	srcs/vec_ops/vec_ops2.c
+	srcs/vec_ops/vec_ops2.c \
+	srcs/image/image.c
 
 OBJS	:= $(SRCS:.c=.o)
 

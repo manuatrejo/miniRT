@@ -1,21 +1,28 @@
-POR HACER HOY:
+Prioridades:
 
-Calcular dirección de los rayos del orígen al plano de píxeles:
+1	Hacer que funcione con inputs básicos
 
-1 Up predefinido y calcular right con el producto cruzado de
-la dirección de la cámara y up
+2	Añadir iluminación avanzada
 
-2 Recalcular up
+3	Optimizar(usar BVH solo si va lento)
 
-3 Normalizar coordenadas del píxel
-El (doble del valor del iterador / WIN_WIDTH) - 1
+Lista de objetivos:
 
-4 Ajustar coordenadas de píxeles por la relación entre WIDTH y HEIGHT
+1	Operaciones de vectores y rayos
 
-5 Calcular dirección del rayo
-ray = (right * x) + (up * y) + cam_vector
+2	Objetos y funciones de intersección
 
-6???? Ajustar rayos al FOV
+3	Generar un rayo por cada píxel de la cámara
+
+4	Render inicial (imprimir primeros objetos)
+
+5	Iluminación
+
+6	Optimizar con BVH
+
+7	Añadir materiales con propiedades distintas
+
+8	Antialiasing, reflejos y objetos con texturas
 
 
 SIGUIENTE: comprobar donde choca el rayo
@@ -39,4 +46,68 @@ Iluminación ambiental"A" mínima que tienen todos los objetos + iluminación pu
 1 Iluminación Phong
 2 Reflexión sencilla
 3 Sombras simples
+
+
+
+###Prioridades
+
+
+1 Path Tracing básico
+
+Rebotes de luz para iluminación global.
+
+
+2 Materiales PBR básicos (Principled/Metal-Rough)
+
+Difuso Lambert para superficies no metálicas.
+Microfacet GGX + Fresnel Schlick para especulares/metales.
+Esto cambia drásticamente cómo “respiran” los objetos bajo la luz.
+
+
+3 Sampling e Importance Sampling
+
+Cosine-weighted hemisphere para difuso.
+Importance sampling GGX para especular.
+Reduce ruido y permite convergencia rápida.
+
+
+4 Multiple Importance Sampling (MIS)
+
+Combina muestreo de luz + BRDF.
+Crucial si hay luces pequeñas o HDRI.
+
+
+5 Area Lights / HDRI environment
+
+Luz puntual = poco realista.
+Area lights + HDRI hacen que la luz se sienta natural.
+
+
+6 BVH (Bounding Volume Hierarchy)
+
+Mejora la velocidad y permite más rays sin que la CPU muera.
+Sin BVH, no podrás subir samples sin render eterno.
+
+
+7 Russian Roulette (para cortar rebotes largos)
+
+Permite limitar depth sin perder energía.
+Mantiene eficiencia en CPU.
+
+
+8 Tone Mapping + Gamma Correction
+
+Convierte la iluminación física a imagen visible y natural.
+Simple, rápido y da mucha mejora visual.
+
+
+9 Clamp de fireflies / control de rayos muy brillantes
+
+Evita que pocos rays arruinen la imagen.
+Muy fácil de implementar, gran impacto visual.
+
+
+10 Cámara básica / pinhole
+
+No es crucial para realismo extremo, pero necesario para render correcto.
 
