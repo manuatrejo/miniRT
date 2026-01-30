@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:35 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/28 00:02:00 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/30 01:21:02 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_coord3	vec_cross_prod(t_coord3 u, t_coord3 v)
 
 bool	equal_vecs(t_dir u, t_dir v)
 {
-	const t_real	epsilon = 1e-3;
+	const t_real	epsilon = 1e-3;//igual es mejor un epsilon menor
 	t_real			x_diff;
 	t_real			y_diff;
 	t_real			z_diff;

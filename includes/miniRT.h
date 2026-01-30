@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/28 00:40:24 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/30 02:29:30 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,29 +83,54 @@ typedef struct s_light
 
 typedef struct s_sphere
 {
-	t_coord3		center;
-	t_real			diameter;
-	t_color			color;
-	struct s_sphere	*next;
+	t_coord3	center;
+	t_real		radius;
+	t_color		color;
 }	t_sphere;
+
+typedef struct s_sphere_list
+{
+	t_sphere				sphere;
+	struct s_sphere_list	*next;
+}	t_sphere_list;
 
 typedef struct s_plane
 {
-	t_coord3		point;
-	t_dir			normal;
-	t_color			color;
-	struct s_plane	*next;
-}	t_plane;
+	t_coord3	point;
+	t_dir		normal;
+	t_color		color;
+}	t_plane;	
+
+typedef struct s_plane_list
+{
+	t_plane				plane;
+	struct s_plane_list	*next;
+}	t_plane_list;
 
 typedef struct s_cylind
 {
-	t_coord3		point;
-	t_dir			axis;
-	t_real			diameter;
-	t_real			length;
-	t_color			color;
-	struct s_cylind	*next;
+	t_coord3	point;
+	t_dir		axis;
+	t_real		diameter;
+	t_real		length;
+	t_color		color;
 }	t_cylind;
+
+typedef struct s_cylind_list
+{
+	t_cylind				cylind;
+	struct s_cylind_list	*next;
+}	t_cylind_list;
+
+typedef struct s_parse
+{
+	t_a_light		a_light;
+	t_camera		cam;
+	t_light			light;
+	t_sphere_list	*sphere;
+	t_plane_list	*plane;
+	t_cylind_list	*cylinder;
+}	t_parse;
 
 typedef struct s_scene
 {
@@ -113,19 +138,33 @@ typedef struct s_scene
 	t_camera	cam;
 	t_light		light;
 	t_sphere	*sphere;
+	int			n_spheres;
 	t_plane		*plane;
+	int			n_planes;
 	t_cylind	*cylinder;
+	int			n_cylinders;
 }	t_scene;
 
 typedef struct s_vport
 {
-	t_real	vport_h;
-	t_real	vport_w;
 	t_dir	up;
 	t_dir	right;
+	t_real	vport_h;
+	t_real	vport_w;
 	int		w_iter;
 	int		h_iter;
 }	t_vport;
+
+typedef struct s_mlx
+{
+	void	*mlx;
+	void	*window;
+	void	*image;
+	void	*addr;
+	int		bpp;
+	int		line_l;
+	int		endian;
+}	t_mlx;
 
 t_coord3	vec_add(t_coord3 vec1, t_coord3 vec2);
 t_coord3	vec_sub(t_coord3 vec1, t_coord3 vec2);
@@ -135,9 +174,9 @@ t_coord3	vec_normalize(t_coord3 v);
 t_coord3	vec_cross_prod(t_coord3 u, t_coord3 v);
 t_real		vec_length(t_coord3 v);
 bool		equal_vecs(t_dir u, t_dir v);
-t_scene		*parse_file(char *file);
+t_parse		*parse_file(char *file);
 
-void		free_scene(t_scene *scene);
+void		free_scene(t_parse *scene);
 
 // Parsing helpers
 bool		line_is_blank(const char *s);
@@ -150,11 +189,14 @@ bool		parse_range_double(const char *s, double min, double max,
 				double *out);
 
 // Element parsers
-bool		parse_amb_light(t_scene **scene, char **split_l);
-bool		parse_camera(t_scene **scene, char **split_l);
-bool		parse_light(t_scene **scene, char **split_l);
-bool		parse_sphere(t_scene **scene, char **split_l);
-bool		parse_plane(t_scene **scene, char **split_l);
-bool		parse_cylinder(t_scene **scene, char **split_l);
+bool		parse_amb_light(t_parse **scene, char **split_l);
+bool		parse_camera(t_parse **scene, char **split_l);
+bool		parse_light(t_parse **scene, char **split_l);
+bool		parse_sphere(t_parse **scene, char **split_l);
+bool		parse_plane(t_parse **scene, char **split_l);
+bool		parse_cylinder(t_parse **scene, char **split_l);
+
+// Image
+void	image_loop(t_scene scene, t_mlx);
 
 #endif

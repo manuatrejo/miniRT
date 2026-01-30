@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:22 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/23 21:11:33 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/30 00:03:09 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	valid_filename(char *file)
 	return (true);
 }
 
-static bool	parse_line(t_scene **scene, char *line)
+static bool	parse_line(t_parse **scene, char *line)
 {
 	char	**split_l;
 
@@ -66,9 +66,9 @@ static bool	parse_line(t_scene **scene, char *line)
 		return (ft_putendl_fd("Error: incorrect identifier", 2), false);
 }
 
-t_scene	*parse_file(char *file)
+t_parse	*parse_file(char *file)
 {
-	t_scene	*scene;
+	t_parse	*scene;
 	char	*line;
 	int		fd;
 
@@ -77,7 +77,7 @@ t_scene	*parse_file(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (perror("Parsing"), NULL);
-	scene = ft_calloc(1, sizeof(t_scene));
+	scene = ft_calloc(1, sizeof(t_parse));
 	if (!scene)
 		return (close(fd), NULL);
 	line = get_next_line(fd);

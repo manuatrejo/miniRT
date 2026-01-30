@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:32 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/23 19:40:33 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/30 01:55:53 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_coord3	vec_product(t_coord3 vec1, t_coord3 vec2)
 
 t_real	vec_length(t_coord3 v)
 {
-	if (sizeof(t_real) == 8)
+	if (sizeof(t_real) == 8)//hacer función t_real_sqrt
 		return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 	return (sqrtf(v.x * v.x + v.y * v.y + v.z * v.z));
 }

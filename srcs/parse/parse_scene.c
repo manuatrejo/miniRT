@@ -6,13 +6,13 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:02 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/23 19:40:03 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/30 00:03:09 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-bool	parse_amb_light(t_scene **scene, char **split_l)
+bool	parse_amb_light(t_parse **scene, char **split_l)
 {
 	double	intensity;
 
@@ -31,7 +31,7 @@ bool	parse_amb_light(t_scene **scene, char **split_l)
 	return (true);
 }
 
-bool	parse_camera(t_scene **scene, char **split_l)
+bool	parse_camera(t_parse **scene, char **split_l)
 {
 	t_camera	*cam;
 
@@ -52,7 +52,7 @@ bool	parse_camera(t_scene **scene, char **split_l)
 	return (true);
 }
 
-bool	parse_light(t_scene **scene, char **split_l)
+bool	parse_light(t_parse **scene, char **split_l)
 {
 	t_light	*light;
 	double	intensity;

@@ -1,14 +1,6 @@
-Partes principales de miniRT:
+Métodos para un ray tracer realista:
 
-1 Crear un rayo para cada pixel
-
-2 Pintar objeto cuando el rayo choca con él
-
-3 Calcular iluminación sobre este punto
-
-
-
-Temas más importantes para un ray tracer realista:
+SOLO IMPLEMENTAR LO BÁSICO CON BUEN RETORNO TIEMPO/RESULTADO
 
 1 Path Tracing básico
 
@@ -69,14 +61,6 @@ Muy fácil de implementar, gran impacto visual.
 
 No es crucial para realismo extremo, pero necesario para render correcto.
 
-
-
-
-Info:
-
-Pedir a la IA que me resuma Iluminación Phong, reflexión sencilla y sombras suaves.
-
-Buscar opciones más avanzadas y para iluminación y si es asequible aplicarlas.
 
 
 Objetos (con los que interactua el rayo): difusos, metálicos y dieléctricos

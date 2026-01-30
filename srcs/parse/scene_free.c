@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:26 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/23 19:40:27 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/30 00:03:09 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	free_cylinders(t_cylind *c)
 	}
 }
 
-void	free_scene(t_scene *scene)
+void	free_scene(t_parse *scene)
 {
 	if (!scene)
 		return ;
