@@ -6,15 +6,15 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:26 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/30 00:03:09 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/30 22:51:43 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-static void	free_spheres(t_sphere *s)
+static void	free_spheres(t_sphere_list *s)
 {
-	t_sphere	*next;
+	t_sphere_list	*next;
 
 	while (s)
 	{
@@ -24,9 +24,9 @@ static void	free_spheres(t_sphere *s)
 	}
 }
 
-static void	free_planes(t_plane *p)
+static void	free_planes(t_plane_list *p)
 {
-	t_plane	*next;
+	t_plane_list	*next;
 
 	while (p)
 	{
@@ -36,9 +36,9 @@ static void	free_planes(t_plane *p)
 	}
 }
 
-static void	free_cylinders(t_cylind *c)
+static void	free_cylinders(t_cylind_list *c)
 {
-	t_cylind	*next;
+	t_cylind_list	*next;
 
 	while (c)
 	{

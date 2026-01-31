@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:22 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/30 00:03:09 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/31 00:23:32 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,14 @@ static bool	parse_line(t_parse **scene, char *line)
 		return (false);
 	if (!split_l[0])
 		return (free_str_array(split_l), true);
-	if (ft_strcmp(split_l[0], "A") == 0)//comprobar que el formato de número sea correcto
-		return (free_str_array(split_l), parse_amb_light(scene, split_l));
-	else if (ft_strcmp(split_l[0], "C") == 0)
-		return (free_str_array(split_l), parse_camera(scene, split_l));
-	else if (ft_strcmp(split_l[0], "L") == 0)
-		return (free_str_array(split_l), parse_light(scene, split_l));
-	else if (ft_strcmp(split_l[0], "sp") == 0)
-		return (free_str_array(split_l), parse_sphere(scene, split_l));
-	else if (ft_strcmp(split_l[0], "pl") == 0)
-		return (free_str_array(split_l), parse_plane(scene, split_l));
-	else if (ft_strcmp(split_l[0], "cy") == 0)
-		return (free_str_array(split_l), parse_cylinder(scene, split_l));
-	else
-		return (ft_putendl_fd("Error: incorrect identifier", 2), false);
+	if ((ft_strcmp(split_l[0], "A") == 0 && parse_amb_light(scene, split_l))
+		|| (ft_strcmp(split_l[0], "C") == 0 && parse_camera(scene, split_l))
+		|| (ft_strcmp(split_l[0], "L") == 0 && parse_light(scene, split_l))
+		|| (ft_strcmp(split_l[0], "sp") == 0 && parse_sphere(scene, split_l))
+		|| (ft_strcmp(split_l[0], "pl") == 0 && parse_plane(scene, split_l))
+		|| (ft_strcmp(split_l[0], "cy") == 0 && parse_cylinder(scene, split_l)))
+		return (free_str_array(split_l), true);
+	return (ft_putendl_fd("Error:\nBad line", 2), free_str_array(split_l) ,false);
 }
 
 t_parse	*parse_file(char *file)

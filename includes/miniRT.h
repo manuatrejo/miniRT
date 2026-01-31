@@ -6,15 +6,22 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/30 02:29:30 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/01/31 01:08:40 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 
 # include "libft.h"
+# include "../minilibx-linux/mlx.h" 
 # include <math.h>
+# include <limits.h>
+# include <X11/keysym.h>
 # include <fcntl.h>
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846
+# endif
 
 # define MINIRT_H
 # define HEIGHT 1000
@@ -166,37 +173,52 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
-t_coord3	vec_add(t_coord3 vec1, t_coord3 vec2);
-t_coord3	vec_sub(t_coord3 vec1, t_coord3 vec2);
-t_coord3	vec_x_scalar(t_coord3 vec, t_real scalar);
-t_coord3	vec_product(t_coord3 vec1, t_coord3 vec2);
-t_coord3	vec_normalize(t_coord3 v);
-t_coord3	vec_cross_prod(t_coord3 u, t_coord3 v);
-t_real		vec_length(t_coord3 v);
-bool		equal_vecs(t_dir u, t_dir v);
-t_parse		*parse_file(char *file);
+typedef struct s_hit
+{
+	t_dir	n;
+	t_real	t;
+	t_point	p;
+	t_color	color;
+	t_real	ref_c;
+}	t_hit;
 
-void		free_scene(t_parse *scene);
+t_dir	vec_add(t_dir vec1, t_dir vec2);
+t_dir	vec_sub(t_dir vec1, t_dir vec2);
+t_dir	vec_x_scalar(t_dir vec, t_real scalar);
+t_dir	vec_div(t_dir u, t_real n);
+t_real	dot_product(t_dir vec1, t_dir vec2);
+t_dir	vec_normalize(t_dir v);
+t_dir	vec_cross_prod(t_dir u, t_dir v);
+t_real	vec_length(t_dir v);
+bool	equal_vecs(t_dir u, t_dir v);
+t_parse	*parse_file(char *file);
+t_scene	parse_to_scene(t_parse *parse);
+t_real	t_real_sqrt(t_real n);
+
+void	free_scene(t_parse *scene);
 
 // Parsing helpers
-bool		line_is_blank(const char *s);
-bool		ensure_token_count(char **tokens, int expected);
-bool		parse_positive_double(const char *s, double *out);
-bool		parse_dir_normalized(t_dir *dir, char *str);
-bool		parse_coord(t_coord3 *coord, char *str);
-bool		parse_color(t_color *color, char *str);
-bool		parse_range_double(const char *s, double min, double max,
-				double *out);
+bool	line_is_blank(const char *s);
+bool	ensure_token_count(char **tokens, int expected);
+bool	parse_positive_double(const char *s, double *out);
+bool	parse_dir_normalized(t_dir *dir, char *str);
+bool	parse_coord(t_coord3 *coord, char *str);
+bool	parse_color(t_color *color, char *str);
+bool	parse_range_double(const char *s, double min, double max,
+			double *out);
 
 // Element parsers
-bool		parse_amb_light(t_parse **scene, char **split_l);
-bool		parse_camera(t_parse **scene, char **split_l);
-bool		parse_light(t_parse **scene, char **split_l);
-bool		parse_sphere(t_parse **scene, char **split_l);
-bool		parse_plane(t_parse **scene, char **split_l);
-bool		parse_cylinder(t_parse **scene, char **split_l);
+bool	parse_amb_light(t_parse **scene, char **split_l);
+bool	parse_camera(t_parse **scene, char **split_l);
+bool	parse_light(t_parse **scene, char **split_l);
+bool	parse_sphere(t_parse **scene, char **split_l);
+bool	parse_plane(t_parse **scene, char **split_l);
+bool	parse_cylinder(t_parse **scene, char **split_l);
 
 // Image
 void	image_loop(t_scene scene, t_mlx);
+
+// Intersections
+t_hit	get_closest_hit(t_ray ray, t_scene scene);
 
 #endif

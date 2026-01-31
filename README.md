@@ -1,14 +1,36 @@
 # Prioridades actualmente
 
-Pasar parse a scene y liberar parse(IA)
-
-Implementar intersecciones con objetos(específicamente esferas primero)
+Implementar intersecciones con objetos(planos y cilindros)
 
 DECIDIR QUÉ MODELO DE ILUMINACIÓN USAR Y REDECLARAR LOS OBJETIVOS A SEGUIR
 
 Hacer que funcione con inputs básicos
 
 Añadir iluminación avanzada
+
+Comprobar que los números estén bien escritos en el .rt
+
+# Iluminación
+
+## Implementar modelo Phong
+
+### 1 Ambient, diffuse, specular
+
+### 2 Sombras sencillas(shadow rays)
+
+### 3 Atenuación de la luz / (distancia ^ 2)
+
+### 4 Materiales con propiedades
+
+### 5 Reflexiones
+
+### 6 Refracción (ley de Snell)
+
+### 7 Iluminación global(Ambient Oclussion, Path Tracing(Montecarlo))
+
+### 8 Gamma correction
+
+### 9 Antialiasing
 
 
 
