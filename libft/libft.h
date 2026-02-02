@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:13:46 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/23 17:53:59 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/01 21:07:18 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int		ft_lstsize(t_list *lst);
 double	ft_atof(const char *str);
 void	free_str_array(char **array);
 int		ft_isspace(char c);
+int		int_abs(int n);
+double	double_abs(double n);
 
 char	*get_next_line(int fd);
 

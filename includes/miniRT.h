@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/31 01:08:40 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/01 22:00:13 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,13 @@ typedef struct s_light
 	t_color		color;
 	bool		defined;
 }	t_light;
+
+typedef enum e_obj
+{
+	OBJ_SPHERE,
+	OBJ_PLANE,
+	OBJ_CYLINDER
+}	t_obj;
 
 typedef struct s_sphere
 {
@@ -180,6 +187,7 @@ typedef struct s_hit
 	t_point	p;
 	t_color	color;
 	t_real	ref_c;
+	t_obj	o_type;
 }	t_hit;
 
 t_dir	vec_add(t_dir vec1, t_dir vec2);
