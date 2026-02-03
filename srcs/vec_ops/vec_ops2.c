@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:35 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/30 23:52:21 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/03 09:49:17 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_real	t_real_sqrt(t_real n)
 
 bool	equal_vecs(t_dir u, t_dir v)
 {
-	const t_real	epsilon = 1e-3;//igual es mejor un epsilon menor
+	const t_real	epsilon = 1e-3;
 	t_real			x_diff;
 	t_real			y_diff;
 	t_real			z_diff;

@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:32 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/30 22:32:13 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/03 09:47:59 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_dir	vec_x_scalar(t_dir vec, t_real scalar)
 	result.z = vec.z * scalar;
 	return (result);
 }
+
 t_real	dot_product(t_dir vec1, t_dir vec2)
 {
 	return (vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z);

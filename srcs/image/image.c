@@ -6,26 +6,25 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:21:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/31 01:37:50 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/03 10:05:17 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-
-void	my_put_pixel(t_mlx mlx, int x, int y, int color)
+void	my_put_pixel(t_mlx *mlx, int x, int y, int color)
 {
 	char	*dst;
 
-	dst = mlx.addr + (y * mlx.line_l + x * (mlx.bpp) / 8);
+	dst = mlx->addr + (y * mlx->line_l + x * (mlx->bpp) / 8);
 	*(unsigned int *)dst = color;
 }
 
 t_dir	get_dir_up(t_camera camera)
 {
-	static const t_dir	up = {0.0f, 1.0f, 0.0f};
-	static const t_dir	right = {1.0f, 0.0f, 0.0f};
-	static const t_dir	down = {0.0f, -1.0f, 0.0f};
+	static const t_dir	up = {0.0, 1.0, 0.0};
+	static const t_dir	right = {1.0, 0.0, 0.0};
+	static const t_dir	down = {0.0, -1.0, 0.0};
 
 	if (equal_vecs(camera.dir, up) || equal_vecs(camera.dir, down))
 		return (right);
@@ -37,49 +36,91 @@ t_dir	get_ray_dir(t_vport vport, t_dir ray_dir)
 	t_real	mult_right;
 	t_real	mult_up;
 
-	mult_right = ((t_real)vport.w_iter - ((t_real)WIDTH / 2)) /
-		((t_real)WIDTH / 2) * vport.vport_h;
-	mult_up = -(((t_real)vport.h_iter - ((t_real)HEIGHT / 2)) /
-		((t_real)HEIGHT / 2)) * vport.vport_w;
+	mult_right = ((t_real)vport.w_iter - ((t_real)WIDTH / 2))
+		/ ((t_real)WIDTH / 2) * vport.vport_w;
+	mult_up = -(((t_real)vport.h_iter - ((t_real)HEIGHT / 2))
+			/ ((t_real)HEIGHT / 2)) * vport.vport_h;
 	return (vec_add(ray_dir, vec_add(vec_x_scalar(vport.right, mult_right),
-		vec_x_scalar(vport.up, mult_up))));
+				vec_x_scalar(vport.up, mult_up))));
+}
+
+bool	point_in_shadow(t_point point, t_point light_p, t_scene scene)
+{
+	const t_real	eps = (t_real)1e-4;
+	t_real			dist;
+	t_ray			shadow;
+	t_dir			dir;
+	t_hit			hit;
+
+	dir = vec_sub(light_p, point);
+	dist = vec_length(dir);
+	if (dist <= eps)
+		return (false);
+	shadow.dir = vec_div(dir, dist);
+	shadow.orig = vec_add(point, vec_x_scalar(shadow.dir, eps));
+	hit = get_closest_hit(shadow, scene);
+	return (hit.t != INFINITE && hit.t > eps && hit.t < dist);
+}
+
+t_coord3	phong_shading(t_hit hit, t_dir view, t_light light, t_scene scene)
+{
+	t_color	light_col;
+	t_color	color;
+	t_dir	h;
+	t_dir	v;
+	t_dir	l;
+
+	if (dot_product(hit.n, view) < (t_real)0.0)
+		hit.n = vec_x_scalar(hit.n, (t_real) - 1.0);
+	v = vec_normalize(view);
+	l = vec_normalize(vec_sub(light.point, hit.p));
+	color = vec_x_scalar(vec_prod(hit.color, scene.a_light.color),
+			scene.a_light.intensity);
+	if (point_in_shadow(hit.p, light.point, scene))
+		return (color);
+	light_col = vec_x_scalar(light.color, light.intensity);
+	color = vec_add(color, vec_x_scalar(vec_prod(hit.color, light_col),
+			fmax(dot_product(hit.n, l), (t_real)0.0)));
+	h = vec_normalize(vec_add(l, v));
+	color = vec_add(color, vec_x_scalar(light_col,
+			(t_real)pow(fmax(dot_product(hit.n, h), (t_real)0.0), (t_real)32.0)));
+	return (color);
 }
 
 int	ray_to_color(t_ray ray, t_scene scene)
 {
 	t_hit	hit;
+	t_dir	view_dir;
 
-	// comprobar con cual de todos los objetos choca antes
 	hit = get_closest_hit(ray, scene);
 	if (hit.t >= 1000000.0)
 		return (0x000000);
-	return ((hit.color.red << 16) | (hit.color.green << 8) | hit.color.blue);
+	view_dir = vec_x_scalar(ray.dir, (t_real)-1.0);
+	return (color_proccessing(phong_shading(hit,
+				view_dir, scene.light, scene)));
 }
 
-int	ray_color(t_vport vport, t_scene scene)//devuelve el color completo
+//calcular iluminación path tracing
+//tema de muestras y eso
+int	ray_color(t_vport vport, t_scene scene)
 {
 	t_ray	ray;
 	int		color;
 
 	ray.orig = scene.cam.orig;
 	ray.dir = scene.cam.dir;
-	//calcular t_dir del rayo actual(lanzar múltiples rayos para mejor imagen)
 	ray.dir = vec_normalize(get_ray_dir(vport, ray.dir));
 	color = ray_to_color(ray, scene);
-	
-	//comprobar intersección
-	//calcular iluminación path tracing
-	//tema de muestras y eso
-
 	return (color);
 }
 
-void	image_loop(t_scene scene, t_mlx mlx)
+void	image_loop(t_scene scene, t_mlx *mlx)
 {
 	t_vport	vport;
-			
-	vport.right = vec_cross_prod(scene.cam.dir, get_dir_up(scene.cam));
-	vport.up = vec_cross_prod(vport.right, scene.cam.dir);
+
+	vport.right = vec_normalize(vec_cross_prod(scene.cam.dir,
+			get_dir_up(scene.cam)));
+	vport.up = vec_normalize(vec_cross_prod(vport.right, scene.cam.dir));
 	vport.vport_h = tan(((scene.cam.fov * M_PI) / 180.0) / 2.0);
 	vport.vport_w = vport.vport_h * ((t_real)WIDTH / (t_real)HEIGHT);
 	vport.h_iter = 0;
@@ -94,4 +135,5 @@ void	image_loop(t_scene scene, t_mlx mlx)
 		}
 		vport.h_iter++;
 	}
+	printf("finished\n");
 }

@@ -1,14 +1,12 @@
 # Prioridades actualmente
 
-Implementar intersecciones con objetos(planos y cilindros)
-
 DECIDIR QUÉ MODELO DE ILUMINACIÓN USAR Y REDECLARAR LOS OBJETIVOS A SEGUIR
-
-Hacer que funcione con inputs básicos
 
 Añadir iluminación avanzada
 
 Comprobar que los números estén bien escritos en el .rt
+
+Buscar cosas que jodan el resultado de las intersecciones de rayos
 
 # Iluminación
 
@@ -36,13 +34,13 @@ Comprobar que los números estén bien escritos en el .rt
 
 ## Flujo general del proyecto
 
-### 1	Operaciones de vectores y rayos
+### 1	Operaciones de vectores y rayos *
 
-### 2	Objetos y funciones de intersección
+### 2	Objetos y funciones de intersección *
 
-### 3	Generar un rayo por cada píxel de la cámara
+### 3	Generar un rayo por cada píxel de la cámara *
 
-### 4	Render inicial (imprimir primeros objetos)
+### 4	Render inicial (imprimir primeros objetos) *
 
 ### 5	Iluminación
 

@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/02 04:02:07 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/03 09:52:12 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,13 @@ bool	parse_cylinder(t_parse **scene, char **split_l)
 		|| !parse_dir_normalized(&cy->cylind.axis, split_l[2])
 		|| !parse_positive_double(split_l[3], &diameter)
 		|| !parse_positive_double(split_l[4], &length)
-		|| !parse_color(&cy->cylind.color, split_l[5]))
+		|| !parse_color(&cy->cylind.color, split_l[5])
+		|| diameter <= (t_real)0.0 || length <= (t_real)0.0)
 		return (free(cy), ft_putendl_fd("Error: cy invalid params", 2), false);
-	cy->cylind.diameter = (t_real)diameter;
+	cy->cylind.radius = (t_real)diameter / 2;
 	cy->cylind.length = (t_real)length;
+	cy->cylind.point = vec_sub(cy->cylind.point,
+			vec_x_scalar(cy->cylind.axis, length / (t_real)2.0));
 	cy->next = (*scene)->cylinder;
 	(*scene)->cylinder = cy;
 	return (true);

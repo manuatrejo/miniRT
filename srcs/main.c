@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:39 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/31 01:10:40 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/03 09:47:48 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,11 @@ int	main(int ac, char **av)
 	if (!parse)
 		return (1);
 	scene = parse_to_scene(parse);
-	//usar struct BVH si va extremadamente lento
 	mlx.mlx = mlx_init();
 	mlx.window = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "miniRT");
 	mlx.image = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
 	mlx.addr = mlx_get_data_addr(mlx.image, &mlx.bpp, &mlx.line_l, &mlx.endian);
-	image_loop(scene, mlx);
+	image_loop(scene, &mlx);
 	mlx_put_image_to_window(mlx.mlx, mlx.window, mlx.image, 0, 0);
 	mlx_hook(mlx.window, 17, 0, terminate_program, &mlx);
 	mlx_key_hook(mlx.window, key_hook, &mlx);

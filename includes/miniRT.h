@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/01 22:00:13 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/03 10:10:19 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define MINIRT_H
 # define HEIGHT 1000
 # define WIDTH 1000
+# define INFINITE 1000000.0
+//definir el número de cualidades extra de materiales cuando sea bonus
 
 # ifndef TYPE_REAL
 #  define TYPE_REAL
@@ -50,14 +52,8 @@ typedef struct s_coord3
 }	t_coord3;
 
 typedef t_coord3	t_point;
+typedef t_coord3	t_color;
 typedef t_coord3	t_dir;
-
-typedef struct s_color
-{
-	int	red;
-	int	green;
-	int	blue;
-}	t_color;
 
 typedef struct s_ray
 {
@@ -125,7 +121,7 @@ typedef struct s_cylind
 {
 	t_coord3	point;
 	t_dir		axis;
-	t_real		diameter;
+	t_real		radius;
 	t_real		length;
 	t_color		color;
 }	t_cylind;
@@ -190,9 +186,23 @@ typedef struct s_hit
 	t_obj	o_type;
 }	t_hit;
 
+typedef struct s_utils
+{
+	t_dir	oc;
+	t_real	card;
+	t_real	caoc;
+	t_real	a;
+	t_real	b;
+	t_real	c;
+	t_real	d;
+	t_real	t;
+	t_real	sqrt_d;
+}	t_utils;
+
 t_dir	vec_add(t_dir vec1, t_dir vec2);
 t_dir	vec_sub(t_dir vec1, t_dir vec2);
 t_dir	vec_x_scalar(t_dir vec, t_real scalar);
+t_dir	vec_prod(t_dir u, t_dir v);
 t_dir	vec_div(t_dir u, t_real n);
 t_real	dot_product(t_dir vec1, t_dir vec2);
 t_dir	vec_normalize(t_dir v);
@@ -224,9 +234,13 @@ bool	parse_plane(t_parse **scene, char **split_l);
 bool	parse_cylinder(t_parse **scene, char **split_l);
 
 // Image
-void	image_loop(t_scene scene, t_mlx);
+void	image_loop(t_scene scene, t_mlx *mlx);
 
 // Intersections
 t_hit	get_closest_hit(t_ray ray, t_scene scene);
+void	cylin_sides(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u);
+void	cylin_caps(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u);
+
+int	color_proccessing(t_color color);
 
 #endif
