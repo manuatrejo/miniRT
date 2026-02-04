@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:21:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/03 10:05:17 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:20:28 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_dir	get_ray_dir(t_vport vport, t_dir ray_dir)
 }
 
 bool	point_in_shadow(t_point point, t_point light_p, t_scene scene)
-{
+{//eliminar
 	const t_real	eps = (t_real)1e-4;
 	t_real			dist;
 	t_ray			shadow;
@@ -62,33 +62,9 @@ bool	point_in_shadow(t_point point, t_point light_p, t_scene scene)
 	return (hit.t != INFINITE && hit.t > eps && hit.t < dist);
 }
 
-t_coord3	phong_shading(t_hit hit, t_dir view, t_light light, t_scene scene)
-{
-	t_color	light_col;
-	t_color	color;
-	t_dir	h;
-	t_dir	v;
-	t_dir	l;
-
-	if (dot_product(hit.n, view) < (t_real)0.0)
-		hit.n = vec_x_scalar(hit.n, (t_real) - 1.0);
-	v = vec_normalize(view);
-	l = vec_normalize(vec_sub(light.point, hit.p));
-	color = vec_x_scalar(vec_prod(hit.color, scene.a_light.color),
-			scene.a_light.intensity);
-	if (point_in_shadow(hit.p, light.point, scene))
-		return (color);
-	light_col = vec_x_scalar(light.color, light.intensity);
-	color = vec_add(color, vec_x_scalar(vec_prod(hit.color, light_col),
-			fmax(dot_product(hit.n, l), (t_real)0.0)));
-	h = vec_normalize(vec_add(l, v));
-	color = vec_add(color, vec_x_scalar(light_col,
-			(t_real)pow(fmax(dot_product(hit.n, h), (t_real)0.0), (t_real)32.0)));
-	return (color);
-}
-
 int	ray_to_color(t_ray ray, t_scene scene)
 {
+	t_color	color;
 	t_hit	hit;
 	t_dir	view_dir;
 
@@ -96,8 +72,10 @@ int	ray_to_color(t_ray ray, t_scene scene)
 	if (hit.t >= 1000000.0)
 		return (0x000000);
 	view_dir = vec_x_scalar(ray.dir, (t_real)-1.0);
-	return (color_proccessing(phong_shading(hit,
-				view_dir, scene.light, scene)));
+	color = (vec_x_scalar(scene.a_light.color, scene.a_light.intensity));
+	//mientras haya luces (while)
+	color = vec_add(color, cook_torrance(&hit, scene.light, view_dir));
+	return (color_proccessing(color));
 }
 
 //calcular iluminación path tracing

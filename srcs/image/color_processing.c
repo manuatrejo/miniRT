@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 07:27:16 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/03 10:01:14 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:12:46 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	color_proccessing(t_color color)
 {
 	t_real	gamma;
 	t_real	scale;
+	t_real	exposure;
 
 	// El parser guarda colores en 0..255. El shading suele trabajar en 0..1.
 	// Para ser robustos, si detectamos valores > 1, normalizamos a 0..1.
@@ -23,6 +24,10 @@ int	color_proccessing(t_color color)
 	if (color.x > (t_real)1.0 || color.y > (t_real)1.0 || color.z > (t_real)1.0)
 		scale = (t_real)1.0 / (t_real)255.0;
 	color = vec_x_scalar(color, scale);
+	// Exposición simple para evitar una imagen demasiado oscura con BRDFs energy-conserving.
+	// Ajusta este valor si quieres una escena más brillante/oscura.
+	exposure = (t_real)1.4;
+	color = vec_x_scalar(color, exposure);
 	color.x = color.x / (1.0f + color.x);
 	color.y = color.y / (1.0f + color.y);
 	color.z = color.z / (1.0f + color.z);

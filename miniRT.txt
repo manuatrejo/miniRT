@@ -1,20 +1,9 @@
-Phong + sombras(eliminar)
-
-Cook–Torrance
-materiales con: albedo, metalic y roughness
-
-Eliminar luz ambiente
-
 Path tracing
 
 Importance sampling
 
-Post proccessing
-
-
 Ambient light solo para la parte mandatory
 
-Objetos (con los que interactua el rayo): difusos, metálicos y dieléctricos
 Antialaising
 
 Automatizar procesos que me puedan ahorrar tiempo.

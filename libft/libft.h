@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 17:13:46 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/01 21:07:18 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 05:51:01 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	free_str_array(char **array);
 int		ft_isspace(char c);
 int		int_abs(int n);
 double	double_abs(double n);
+char	*replace(char *s, char old, char new);
 
 char	*get_next_line(int fd);
 

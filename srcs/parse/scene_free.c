@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:26 by maanguit          #+#    #+#             */
-/*   Updated: 2026/01/30 22:51:43 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 06:18:40 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	free_scene(t_parse *scene)
 		return ;
 	free_spheres(scene->sphere);
 	free_planes(scene->plane);
-	free_cylinders(scene->cylinder);
+	free_cylinders(scene->cyl);
 	free(scene);
 }

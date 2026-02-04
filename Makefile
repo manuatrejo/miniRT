@@ -19,6 +19,7 @@ SRCS	:= \
 	srcs/parse/parse_utils.c \
 	srcs/parse/parse_utils2.c \
 	srcs/parse/parse_objects.c \
+	srcs/parse/parse_material.c \
 	srcs/parse/scene_free.c \
 	srcs/vec_ops/vec_ops1.c \
 	srcs/vec_ops/vec_ops2.c \
@@ -26,7 +27,8 @@ SRCS	:= \
 	srcs/rays/intersections.c \
 	srcs/image/image.c \
 	srcs/rays/cylinder.c \
-	srcs/image/color_processing.c
+	srcs/image/color_processing.c \
+	srcs/image/ilumination.c
 
 OBJS	:= $(SRCS:.c=.o)
 

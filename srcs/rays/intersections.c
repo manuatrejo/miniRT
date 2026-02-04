@@ -6,19 +6,20 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 23:48:25 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/03 10:01:28 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 07:34:51 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-// hit->ref_c = sp.ref_c; (reflexión cuando haya)
 static void	update_sp_hit(t_ray ray, t_sphere sp, t_hit *hit)
 {
 	hit->p = vec_add(ray.orig, vec_x_scalar(ray.dir, hit->t));
 	hit->n = vec_div(vec_sub(hit->p, sp.center), sp.radius);
 	hit->color = sp.color;
-	hit->o_type = OBJ_SPHERE;
+	hit->albedo = sp.albedo;
+	hit->metallic = sp.metallic;
+	hit->roughness = sp.roughness;
 }
 
 static void	intersect_sphere(t_ray ray, t_sphere sp, t_hit *hit)
@@ -63,13 +64,18 @@ static void	intersect_plane(t_ray ray, t_plane plane, t_hit *hit)
 		return ;
 	hit->t = t;
 	hit->p = vec_add(ray.orig, vec_x_scalar(ray.dir, t));
+	hit->n = plane.normal;
+	if (dot_product(hit->n, ray.dir) > (t_real)0.0)
+		hit->n = vec_x_scalar(hit->n, (t_real)-1.0);
 	hit->color = plane.color;
-	hit->o_type = OBJ_PLANE;
+	hit->albedo = plane.albedo;
+	hit->metallic = plane.metallic;
+	hit->roughness = plane.roughness;
 }
 
-static void	intersect_cylinder(t_ray ray, t_cylind cyl, t_hit *hit)
+static void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit)
 {
-	t_utils	u;
+	t_cy_utils	u;
 
 	u.oc = vec_sub(ray.orig, cyl.point);
 	u.card = dot_product(cyl.axis, ray.dir);
@@ -88,6 +94,7 @@ t_hit	get_closest_hit(t_ray ray, t_scene scene)
 	int		i;
 
 	i = 0;
+	ft_bzero(&first_hit, sizeof(first_hit));
 	first_hit.t = (t_real)INFINITE;
 	while (i < scene.n_spheres)
 		intersect_sphere(ray, scene.sphere[i++], &first_hit);

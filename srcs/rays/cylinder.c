@@ -6,13 +6,13 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 03:25:50 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/03 10:02:14 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 06:17:40 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-static void	assign_caps(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u)
+static void	assign_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
 {
 	t_point	pcap;
 	t_dir	v;
@@ -26,11 +26,13 @@ static void	assign_caps(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u)
 		hit->p = pcap;
 		hit->n = cyl.axis;
 		hit->color = cyl.color;
-		hit->o_type = OBJ_CYLINDER;
+			hit->albedo = cyl.albedo;
+			hit->metallic = cyl.metallic;
+			hit->roughness = cyl.roughness;
 	}
 }
 
-void	cylin_caps(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u)
+void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
 {
 	u.d = dot_product(ray.dir, cyl.axis);
 	if (double_abs(u.d) < 1e-6)
@@ -46,7 +48,7 @@ void	cylin_caps(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u)
 		assign_caps(ray, cyl, hit, u);
 }
 
-void	cylin_sides(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u)
+void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
 {
 	t_real	y;
 
@@ -70,5 +72,7 @@ void	cylin_sides(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u)
 	hit->n = vec_normalize(vec_sub(vec_sub(hit->p, cyl.point),
 				vec_x_scalar(cyl.axis, y)));
 	hit->color = cyl.color;
-	hit->o_type = OBJ_CYLINDER;
+	hit->albedo = cyl.albedo;
+	hit->metallic = cyl.metallic;
+	hit->roughness = cyl.roughness;
 }

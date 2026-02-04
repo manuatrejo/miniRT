@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:13 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/02 03:12:25 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 06:47:05 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ bool	ensure_token_count(char **tokens, int expected)
 	return (i == expected);
 }
 
-bool	parse_range_double(const char *s, double min, double max, double *out)
+bool	parse_range_double(const char *s, t_real min, t_real max, t_real *out)
 {
-	double	v;
+	t_real	v;
 
 	if (!s || !out)
 		return (false);
@@ -50,9 +50,9 @@ bool	parse_range_double(const char *s, double min, double max, double *out)
 	return (true);
 }
 
-bool	parse_positive_double(const char *s, double *out)
+bool	parse_positive_double(const char *s, t_real *out)
 {
-	double	v;
+	t_real	v;
 
 	if (!s || !out)
 		return (false);
@@ -66,19 +66,16 @@ bool	parse_positive_double(const char *s, double *out)
 bool	parse_dir_normalized(t_dir *dir, char *str)
 {
 	t_dir	v;
-	double	len;
-	double	diff;
+	t_real	len;
+	const t_real	eps = (t_real)1e-6;
 
 	if (!dir)
 		return (false);
 	if (!parse_coord(&v, str))
 		return (false);
 	len = vec_length(v);
-	diff = len - 1.0;
-	if (diff < 0)
-		diff = -diff;
-	if (diff > 1e-3)
+	if (len < eps)
 		return (false);
-	*dir = vec_normalize(v);
+	*dir = vec_div(v, len);
 	return (true);
 }

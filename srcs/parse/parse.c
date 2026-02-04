@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:22 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/03 09:51:45 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 05:49:22 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_parse	*parse_file(char *file)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (!parse_line(&scene, line))
+		if (!parse_line(&scene, replace(line, '\n', 0)))
 			return (free(line), free_scene(scene), close(fd), NULL);
 		free(line);
 		line = get_next_line(fd);

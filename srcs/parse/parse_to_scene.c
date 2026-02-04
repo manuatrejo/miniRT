@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:25:34 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/03 09:53:32 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 06:19:07 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static bool	alloc_scene_arrays(t_scene *scene)
 	}
 	if (scene->n_cylinders > 0)
 	{
-		scene->cylinder = ft_calloc(scene->n_cylinders, sizeof(t_cylind));
+		scene->cylinder = ft_calloc(scene->n_cylinders, sizeof(t_cyl));
 		if (!scene->cylinder)
 			return (false);
 	}
@@ -90,7 +90,7 @@ t_scene	parse_to_scene(t_parse *parse)
 	scene.light = parse->light;
 	scene.n_spheres = count_spheres(parse->sphere);
 	scene.n_planes = count_planes(parse->plane);
-	scene.n_cylinders = count_cylinders(parse->cylinder);
+	scene.n_cylinders = count_cylinders(parse->cyl);
 	if (!alloc_scene_arrays(&scene))
 	{
 		ft_putendl_fd("Error: malloc scene arrays", 2);
@@ -113,10 +113,10 @@ t_scene	parse_to_scene(t_parse *parse)
 		pl = pl->next;
 	}
 	i = 0;
-	cy = parse->cylinder;
+	cy = parse->cyl;
 	while (cy)
 	{
-		scene.cylinder[i++] = cy->cylind;
+		scene.cylinder[i++] = cy->cyl;
 		cy = cy->next;
 	}
 	free_scene(parse);

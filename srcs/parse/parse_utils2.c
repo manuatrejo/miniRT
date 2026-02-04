@@ -6,13 +6,13 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:18 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/03 08:09:38 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 11:12:23 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-bool	parse_coord(t_coord3 *coord, char *str)
+bool	parse_coord(t_vec3 *coord, char *str)
 {
 	char	**c_split;
 
@@ -42,9 +42,9 @@ bool	parse_color(t_color *color, char *str)
 	if (!ensure_token_count(c_split, 3))
 		return (free_str_array(c_split),
 			ft_putendl_fd("Error: C format", 2), false);
-	color->x = ft_atoi(c_split[0]);
-	color->y = ft_atoi(c_split[1]);
-	color->z = ft_atoi(c_split[2]);
+	color->x = ft_atoi(c_split[0]) / (t_real)255.0;
+	color->y = ft_atoi(c_split[1]) / (t_real)255.0;
+	color->z = ft_atoi(c_split[2]) / (t_real)255.0;
 	if (color->x < 0 || color->x > 255
 		|| color->y < 0 || color->y > 255
 		|| color->z < 0 || color->z > 255)

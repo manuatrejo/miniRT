@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/03 10:10:19 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/04 06:40:18 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,16 @@ typedef double		t_real;
 #  define MULT_LIGHTS 1
 # endif
 
-typedef struct s_coord3
+typedef struct s_vec3
 {
 	t_real	x;
 	t_real	y;
 	t_real	z;
-}	t_coord3;
+}	t_vec3;
 
-typedef t_coord3	t_point;
-typedef t_coord3	t_color;
-typedef t_coord3	t_dir;
+typedef t_vec3	t_point;
+typedef t_vec3	t_color;
+typedef t_vec3	t_dir;
 
 typedef struct s_ray
 {
@@ -65,7 +65,7 @@ typedef struct s_camera
 {
 	t_point	orig;
 	t_dir	dir;
-	double	fov;
+	t_real	fov;
 	bool	defined;
 }	t_camera;
 
@@ -78,24 +78,20 @@ typedef struct s_a_light
 
 typedef struct s_light
 {
-	t_coord3	point;
+	t_vec3	point;
 	t_real		intensity;
 	t_color		color;
 	bool		defined;
 }	t_light;
 
-typedef enum e_obj
-{
-	OBJ_SPHERE,
-	OBJ_PLANE,
-	OBJ_CYLINDER
-}	t_obj;
-
 typedef struct s_sphere
 {
-	t_coord3	center;
-	t_real		radius;
-	t_color		color;
+	t_vec3	center;
+	t_real	radius;
+	t_color	color;
+	t_color	albedo;
+	t_real	metallic;
+	t_real	roughness;
 }	t_sphere;
 
 typedef struct s_sphere_list
@@ -106,9 +102,12 @@ typedef struct s_sphere_list
 
 typedef struct s_plane
 {
-	t_coord3	point;
-	t_dir		normal;
-	t_color		color;
+	t_vec3	point;
+	t_dir	normal;
+	t_color	color;
+	t_color	albedo;
+	t_real	metallic;
+	t_real	roughness;
 }	t_plane;	
 
 typedef struct s_plane_list
@@ -117,18 +116,21 @@ typedef struct s_plane_list
 	struct s_plane_list	*next;
 }	t_plane_list;
 
-typedef struct s_cylind
+typedef struct s_cyl
 {
-	t_coord3	point;
-	t_dir		axis;
-	t_real		radius;
-	t_real		length;
-	t_color		color;
-}	t_cylind;
+	t_vec3	point;
+	t_dir	axis;
+	t_real	radius;
+	t_real	length;
+	t_color	color;
+	t_color	albedo;
+	t_real	metallic;
+	t_real	roughness;
+}	t_cyl;
 
 typedef struct s_cylind_list
 {
-	t_cylind				cylind;
+	t_cyl					cyl;
 	struct s_cylind_list	*next;
 }	t_cylind_list;
 
@@ -139,7 +141,7 @@ typedef struct s_parse
 	t_light			light;
 	t_sphere_list	*sphere;
 	t_plane_list	*plane;
-	t_cylind_list	*cylinder;
+	t_cylind_list	*cyl;
 }	t_parse;
 
 typedef struct s_scene
@@ -151,7 +153,7 @@ typedef struct s_scene
 	int			n_spheres;
 	t_plane		*plane;
 	int			n_planes;
-	t_cylind	*cylinder;
+	t_cyl	*cylinder;
 	int			n_cylinders;
 }	t_scene;
 
@@ -182,11 +184,12 @@ typedef struct s_hit
 	t_real	t;
 	t_point	p;
 	t_color	color;
-	t_real	ref_c;
-	t_obj	o_type;
+	t_real	metallic;
+	t_real	roughness;
+	t_color	albedo;
 }	t_hit;
 
-typedef struct s_utils
+typedef struct s_cy_utils
 {
 	t_dir	oc;
 	t_real	card;
@@ -197,7 +200,27 @@ typedef struct s_utils
 	t_real	d;
 	t_real	t;
 	t_real	sqrt_d;
-}	t_utils;
+}	t_cy_utils;
+
+typedef struct s_ct
+{
+	t_dir	h;
+	t_dir	l_c;
+	t_real	nl;
+	t_real	nv;
+	t_real	nh;
+	t_real	vh;
+	t_vec3	f0;
+	t_vec3	f;
+	t_real	d;
+	t_real	g;
+	t_real	res;
+	t_vec3	specular;
+	t_vec3	kd;
+	t_color	diffuse;
+	t_color	radiance;
+}	t_ct;
+
 
 t_dir	vec_add(t_dir vec1, t_dir vec2);
 t_dir	vec_sub(t_dir vec1, t_dir vec2);
@@ -218,12 +241,11 @@ void	free_scene(t_parse *scene);
 // Parsing helpers
 bool	line_is_blank(const char *s);
 bool	ensure_token_count(char **tokens, int expected);
-bool	parse_positive_double(const char *s, double *out);
+bool	parse_positive_double(const char *s, t_real *out);
 bool	parse_dir_normalized(t_dir *dir, char *str);
-bool	parse_coord(t_coord3 *coord, char *str);
+bool	parse_coord(t_vec3 *coord, char *str);
 bool	parse_color(t_color *color, char *str);
-bool	parse_range_double(const char *s, double min, double max,
-			double *out);
+bool	parse_range_double(const char *s, t_real min, t_real max, t_real *out);
 
 // Element parsers
 bool	parse_amb_light(t_parse **scene, char **split_l);
@@ -232,15 +254,20 @@ bool	parse_light(t_parse **scene, char **split_l);
 bool	parse_sphere(t_parse **scene, char **split_l);
 bool	parse_plane(t_parse **scene, char **split_l);
 bool	parse_cylinder(t_parse **scene, char **split_l);
+bool	p_material(t_real *r, t_real *m, t_color *albedo, char **split);
 
 // Image
 void	image_loop(t_scene scene, t_mlx *mlx);
 
 // Intersections
 t_hit	get_closest_hit(t_ray ray, t_scene scene);
-void	cylin_sides(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u);
-void	cylin_caps(t_ray ray, t_cylind cyl, t_hit *hit, t_utils u);
+void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
+void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
 
+//Post-processing
 int	color_proccessing(t_color color);
+
+//Ilumination
+t_color	cook_torrance(t_hit	*hit, t_light l, t_dir view);
 
 #endif

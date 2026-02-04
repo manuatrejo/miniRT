@@ -6,7 +6,7 @@
 #    By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 17:14:03 by maanguit          #+#    #+#              #
-#    Updated: 2026/02/01 21:06:45 by maanguit         ###   ########.fr        #
+#    Updated: 2026/02/04 05:51:31 by maanguit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRC = ft_atoi.c ft_atof.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_is
 	ft_isdigit.c ft_memmove.c ft_putstr_fd.c ft_strlcat.c ft_strrchr.c\
 	ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c ft_lstdelone_bonus.c\
 	ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c ft_lstnew_bonus.c ft_lstsize_bonus.c\
-	get_next_line.c get_next_line_utils.c free_str_array.c ft_isspace.c int_abs.c double_abs.c
+	get_next_line.c get_next_line_utils.c free_str_array.c ft_isspace.c int_abs.c double_abs.c \
+	replace.c
 
 OBJ = $(SRC:.c=.o)
 

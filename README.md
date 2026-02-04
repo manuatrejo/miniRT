@@ -1,12 +1,27 @@
 # Prioridades actualmente
 
-DECIDIR QUÉ MODELO DE ILUMINACIÓN USAR Y REDECLARAR LOS OBJETIVOS A SEGUIR
-
-Añadir iluminación avanzada
+Añadir path tracing
 
 Comprobar que los números estén bien escritos en el .rt
 
 Buscar cosas que jodan el resultado de las intersecciones de rayos
+
+
+## Path Tracing
+
+Función que lanza rayos de forma recursiva y suma iluminación directa + indirecta
+
+Lanzar varios rayos y calcular el promedio de estos (Montecarlo)
+
+Necesito una función que genere rayos con direcciones random y que las direcciones más
+probables sean las que más se generen
+
+1 Función que genere múltiples muestras por píxel
+
+2 Función que genera rayo "aleatorio"
+
+3 Función que calcula rebotes del rayo
+
 
 # Iluminación
 
