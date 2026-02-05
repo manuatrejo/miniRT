@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 23:48:25 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 07:34:51 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/05 14:03:54 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,20 @@ static void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit)
 	cylin_caps(ray, cyl, hit, u);
 }
 
-t_hit	get_closest_hit(t_ray ray, t_scene scene)
+t_hit	get_closest_hit(t_ray ray, t_scene *scene)
 {
 	t_hit	first_hit;
 	int		i;
 
 	i = 0;
-	ft_bzero(&first_hit, sizeof(first_hit));
 	first_hit.t = (t_real)INFINITE;
-	while (i < scene.n_spheres)
-		intersect_sphere(ray, scene.sphere[i++], &first_hit);
+	while (i < scene->n_spheres)
+		intersect_sphere(ray, scene->sphere[i++], &first_hit);
 	i = 0;
-	while (i < scene.n_planes)
-		intersect_plane(ray, scene.plane[i++], &first_hit);
+	while (i < scene->n_planes)
+		intersect_plane(ray, scene->plane[i++], &first_hit);
 	i = 0;
-	while (i < scene.n_cylinders)
-		intersect_cylinder(ray, scene.cylinder[i++], &first_hit);
+	while (i < scene->n_cylinders)
+		intersect_cylinder(ray, scene->cylinder[i++], &first_hit);
 	return (first_hit);
 }

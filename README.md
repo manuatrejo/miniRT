@@ -2,50 +2,85 @@
 
 Añadir path tracing
 
+Patrón de ajedrez
+
+Evitar usar sqrt
+
+Aceptar puntos de luz
+
+En intersections precalcular la info que se reutilice y meter a una estructura
+
+Preguntar cuales son todas las optimizaciones posibles para el código
+
 Comprobar que los números estén bien escritos en el .rt
 
 Buscar cosas que jodan el resultado de las intersecciones de rayos
 
 
-## Path Tracing
+# Path Tracing
 
-Función que lanza rayos de forma recursiva y suma iluminación directa + indirecta
+1 Path Tracing difuso
 
-Lanzar varios rayos y calcular el promedio de estos (Montecarlo)
+2 BRDF sampleable
 
-Necesito una función que genere rayos con direcciones random y que las direcciones más
-probables sean las que más se generen
+3 GGX especular
 
-1 Función que genere múltiples muestras por píxel
+4 Mezcla difuso + especular
 
-2 Función que genera rayo "aleatorio"
+5 Emisores (ñe)
 
-3 Función que calcula rebotes del rayo
+6 Optimización
 
+### Código reciclable
 
-# Iluminación
+- f, g, d (GGX) ahora se evaluan dentro de BRDF
 
-## Implementar modelo Phong
+### Código nuevo
 
-### 1 Ambient, diffuse, specular
+- Path tracing loop
 
-### 2 Sombras sencillas(shadow rays)
+- PDFs y troughput
 
-### 3 Atenuación de la luz / (distancia ^ 2)
+- RNG (píxel, sample y rebote)
 
-### 4 Materiales con propiedades
-
-### 5 Reflexiones
-
-### 6 Refracción (ley de Snell)
-
-### 7 Iluminación global(Ambient Oclussion, Path Tracing(Montecarlo))
-
-### 8 Gamma correction
-
-### 9 Antialiasing
+### Código a reestructurar
 
 
+
+## Info útil
+
+### Normalizar BRDF cook-t
+
+Quitar arreglos para verlo bien y mirar por qué hacen falta
+
+### Separar cook_torrance en eval_brdf y pdf_brdf
+
+
+### Implementar trace_path
+
+Recursión
+
+Russian roulette
+
+Emisores(por ver)
+
+Acumulación Monte Carlo
+
+### Cosine-weighted hemisphere sampling
+
+Para el ruido
+
+### Convertir cook-t en BRDF sampleable
+
+Samplear distribución GGX, convertir half vector(ct.h) a dirección de luz, pdf correcto para GGX
+
+### BRDF mixta (difusa + especular)
+
+Difuso lambert + especular cook-torrance
+
+Muestreo por mezcla (MIS simple)
+
+No se suma la luz, se suma BRDFS dif + spec
 
 ## Flujo general del proyecto
 
@@ -57,11 +92,11 @@ probables sean las que más se generen
 
 ### 4	Render inicial (imprimir primeros objetos) *
 
-### 5	Iluminación
+### 5	Iluminación (FALTA PATH TRACING) 
 
 ### 6	Optimizar con BVH(solo si va extremadamente lento)
 
-### 7	Añadir materiales con propiedades distintas
+### 7	Añadir materiales con propiedades distintas *
 
 ### 8	Antialiasing, reflejos y objetos con texturas
 
@@ -129,16 +164,4 @@ Muy fácil de implementar, gran impacto visual.
 
 No es crucial para realismo extremo, pero necesario para render correcto.
 
-
-## Info que hay que buscar fuera de RT in one weekend y one week:
-
-Direct lighting in path tracing
-Shadow rays (iluminación poco realista)
-Point light contribution
-Direct + indirect lighting
-Next Event Estimation (aunque sea versión simple)
-Importance sampling for point lights
-Light sampling vs BRDF sampling
-Energy conservation in BRDF
-Lambertian BRDF = albedo / π
 

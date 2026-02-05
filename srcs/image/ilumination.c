@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 01:21:19 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 11:48:53 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/05 08:05:34 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ t_real geometry_smith(t_real nv, t_real nl, t_real roughness)
 	gl = geometry_schlick_ggx(nl, roughness);
 	return (gv * gl);
 }
-
+/*
+Convertir a GGX BRDF
+*/
 t_color	cook_torrance(t_hit	*hit, t_light l, t_dir view)
 {
 	t_color color;

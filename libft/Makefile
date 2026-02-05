@@ -6,7 +6,7 @@
 #    By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/30 17:14:03 by maanguit          #+#    #+#              #
-#    Updated: 2026/02/04 05:51:31 by maanguit         ###   ########.fr        #
+#    Updated: 2026/02/05 15:41:19 by maanguit         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,8 @@ SRC = ft_atoi.c ft_atof.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_is
 
 OBJ = $(SRC:.c=.o)
 
-CC = cc
-
-CFLAGS = -Wall -Wextra -Werror -g
+CC = $(if $(shell command -v ccache 2>/dev/null),ccache cc,cc)
+CFLAGS = -Wall -Wextra -Werror -g3 -O3 -march=native -ffast-math
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:21:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/05 06:13:58 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/05 16:07:06 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,65 +31,59 @@ t_dir	get_dir_up(t_camera camera)
 	return (up);
 }
 
-t_dir	get_ray_dir(t_vport vport, t_dir ray_dir)
+t_dir	get_ray_dir(t_vport vport, t_dir ray_dir, t_rng *rng)
 {
 	t_real	mult_right;
 	t_real	mult_up;
 
-	mult_right = ((t_real)vport.w_iter - ((t_real)WIDTH / 2))
+	mult_right = ((t_real)vport.w_iter + rand01(rng) - ((t_real)WIDTH / 2))
 		/ ((t_real)WIDTH / 2) * vport.vport_w;
-	mult_up = -(((t_real)vport.h_iter - ((t_real)HEIGHT / 2))
+	mult_up = -(((t_real)vport.h_iter + rand01(rng) - ((t_real)HEIGHT / 2))
 			/ ((t_real)HEIGHT / 2)) * vport.vport_h;
 	return (vec_add(ray_dir, vec_add(vec_x_scalar(vport.right, mult_right),
 				vec_x_scalar(vport.up, mult_up))));
 }
 
-bool	point_in_shadow(t_point point, t_point light_p, t_scene scene)
-{//eliminar
-	const t_real	eps = (t_real)1e-4;
-	t_real			dist;
-	t_ray			shadow;
-	t_dir			dir;
-	t_hit			hit;
-
-	dir = vec_sub(light_p, point);
-	dist = vec_length(dir);
-	if (dist <= eps)
-		return (false);
-	shadow.dir = vec_div(dir, dist);
-	shadow.orig = vec_add(point, vec_x_scalar(shadow.dir, eps));
-	hit = get_closest_hit(shadow, scene);
-	return (hit.t != INFINITE && hit.t > eps && hit.t < dist);
-}
-
-int	ray_to_color(t_ray ray, t_scene scene)
+int	ray_to_color(t_ray ray, t_scene scene)//cambiar por path_trace
 {
 	t_color	color;
 	t_hit	hit;
 	t_dir	view_dir;
 
-	hit = get_closest_hit(ray, scene);
+	hit = get_closest_hit(ray, &scene);
 	if (hit.t >= INFINITE)
 		return (0x000000);
 	view_dir = vec_x_scalar(ray.dir, (t_real)-1.0);
 	color = (vec_x_scalar(scene.a_light.color, scene.a_light.intensity));
-	//mientras haya luces (while)
 	color = vec_add(color, cook_torrance(&hit, scene.light, view_dir));
 	return (color_proccessing(color));
 }
 
-//calcular iluminación path tracing
-//tema de muestras y eso
-int	ray_color(t_vport vport, t_scene scene)
+/*
+
+
+CAMBIAR LA ORGANIZACIÓN DE ESTAS FUNCIONES PARA CLARIDAD
+
+
+*/
+int	ray_color(t_vport vport, t_scene scene)//get_color mejor?
 {
+	t_color	color;
 	t_ray	ray;
-	int		color;
+	t_rng	rng;
+	int		i;
 
 	ray.orig = scene.cam.orig;
-	ray.dir = scene.cam.dir;
-	ray.dir = vec_normalize(get_ray_dir(vport, ray.dir));
-	color = ray_to_color(ray, scene);
-	return (color);
+	rng = init_rng(vport.vport_w, vport.vport_h);
+	i = 0;
+	color = (t_color){0.0, 0.0, 0.0};
+	while (i++ < SAMPLES_NUMBER)
+	{
+		ray.dir = vec_normalize(get_ray_dir(vport, scene.cam.dir, &rng));
+		color = vec_add(color, trace_path(ray, &scene, &rng));
+	}
+	color = vec_div(color, (t_real)SAMPLES_NUMBER);
+	return (color_proccessing(color));
 }
 
 void	image_loop(t_scene scene, t_mlx *mlx)
@@ -112,6 +106,8 @@ void	image_loop(t_scene scene, t_mlx *mlx)
 			vport.w_iter++;
 		}
 		vport.h_iter++;
+		if (vport.h_iter % 10 == 0)
+			printf("%d\n", (int)((vport.h_iter / (float)HEIGHT) * 100));
 	}
 	printf("finished\n");
 }

@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 06:40:18 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/05 15:54:42 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@
 # define MINIRT_H
 # define HEIGHT 1000
 # define WIDTH 1000
-# define INFINITE 1000000.0
-//definir el número de cualidades extra de materiales cuando sea bonus
+# define INFINITE 1e6
+# ifndef SAMPLES_NUMBER
+#  define SAMPLES_NUMBER 1000
+# endif
+# define MAX_DEPTH 2
 
 # ifndef TYPE_REAL
 #  define TYPE_REAL
@@ -54,6 +57,11 @@ typedef struct s_vec3
 typedef t_vec3	t_point;
 typedef t_vec3	t_color;
 typedef t_vec3	t_dir;
+
+typedef struct	s_rng
+{
+	__uint32_t state;
+}	t_rng;
 
 typedef struct s_ray
 {
@@ -260,7 +268,7 @@ bool	p_material(t_real *r, t_real *m, t_color *albedo, char **split);
 void	image_loop(t_scene scene, t_mlx *mlx);
 
 // Intersections
-t_hit	get_closest_hit(t_ray ray, t_scene scene);
+t_hit	get_closest_hit(t_ray ray, t_scene *scene);
 void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
 void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
 
@@ -269,5 +277,10 @@ int	color_proccessing(t_color color);
 
 //Ilumination
 t_color	cook_torrance(t_hit	*hit, t_light l, t_dir view);
+t_color	trace_path(t_ray ray, t_scene *scene, t_rng *rng);
+
+//Samples
+t_rng	init_rng(int x, int y);
+float	rand01(t_rng *rng);
 
 #endif
