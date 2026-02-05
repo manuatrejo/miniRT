@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:21:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 11:20:28 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/05 06:13:58 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ray_to_color(t_ray ray, t_scene scene)
 	t_dir	view_dir;
 
 	hit = get_closest_hit(ray, scene);
-	if (hit.t >= 1000000.0)
+	if (hit.t >= INFINITE)
 		return (0x000000);
 	view_dir = vec_x_scalar(ray.dir, (t_real)-1.0);
 	color = (vec_x_scalar(scene.a_light.color, scene.a_light.intensity));
