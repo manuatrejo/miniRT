@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 03:25:50 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 06:17:40 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 06:02:58 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ static void	assign_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
 		hit->p = pcap;
 		hit->n = cyl.axis;
 		hit->color = cyl.color;
-			hit->albedo = cyl.albedo;
-			hit->metallic = cyl.metallic;
-			hit->roughness = cyl.roughness;
+		hit->albedo = cyl.albedo;
+		hit->metallic = cyl.metallic;
+		hit->roughness = cyl.roughness;
 	}
 }
 

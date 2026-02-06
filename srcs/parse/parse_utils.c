@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:13 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 06:47:05 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 09:31:58 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,13 @@ bool	parse_dir_normalized(t_dir *dir, char *str)
 {
 	t_dir	v;
 	t_real	len;
-	const t_real	eps = (t_real)1e-6;
 
 	if (!dir)
 		return (false);
 	if (!parse_coord(&v, str))
 		return (false);
 	len = vec_length(v);
-	if (len < eps)
+	if (len < (t_real)1e-6)
 		return (false);
 	*dir = vec_div(v, len);
 	return (true);

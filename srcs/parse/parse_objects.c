@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 11:12:03 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 09:33:09 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ bool	parse_sphere(t_parse **scene, char **split_l)
 		|| !parse_color(&sp->sphere.color, split_l[3]))
 		return (free(sp), ft_putendl_fd("Error: sp invalid params", 2), false);
 	sp->sphere.albedo = sp->sphere.color;
-	if (!p_material(&sp->sphere.roughness, &sp->sphere.metallic, &sp->sphere.albedo,
-			split_l))
+	if (!p_material(&sp->sphere.roughness, &sp->sphere.metallic,
+			&sp->sphere.albedo, split_l))
 		return (free(sp), ft_putendl_fd("Error: sp material", 2), false);
 	sp->sphere.radius = sp->sphere.radius / 2;
 	sp->next = (*scene)->sphere;
@@ -53,8 +53,8 @@ bool	parse_plane(t_parse **scene, char **split_l)
 		|| !parse_color(&pl->plane.color, split_l[3]))
 		return (free(pl), ft_putendl_fd("Error: pl invalid params", 2), false);
 	pl->plane.albedo = pl->plane.color;
-	if (!p_material(&pl->plane.roughness, &pl->plane.metallic, &pl->plane.albedo,
-			split_l))
+	if (!p_material(&pl->plane.roughness, &pl->plane.metallic,
+			&pl->plane.albedo, split_l))
 		return (free(pl), ft_putendl_fd("Error: pl material", 2), false);
 	pl->next = (*scene)->plane;
 	(*scene)->plane = pl;

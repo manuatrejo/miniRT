@@ -2,10 +2,11 @@ NAME		:= miniRT
 
 JOBS ?= $(shell nproc 2>/dev/null || echo 4)
 
-SAMPLES ?= 50
+SAMPLES ?= 2
+CHECK ?= 1
 
 CC		:= $(if $(shell command -v ccache 2>/dev/null),ccache cc,cc)
-CFLAGS	:= -Wall -Wextra -Werror -I minilibx-linux -I. -g3 -O3 -D SAMPLES_NUMBER=$(SAMPLES)
+CFLAGS	:= -Wall -Wextra -Werror -I minilibx-linux -I. -g3 -O3 -D SAMPLES_NUMBER=$(SAMPLES) -D CHECK_BOARD=$(CHECK)
 LDFLAGS = -L minilibx-linux -lmlx -lXext -lX11 -lm -lz
 
 MLX = minilibx-linux/libmlx.a
@@ -15,33 +16,40 @@ INCLUDES	:= -I./includes -I./libft
 LIBFT_DIR	:= ./libft
 LIBFT		:= $(LIBFT_DIR)/libft.a
 
-SRCS	:= \
-	srcs/main.c \
-	srcs/parse/parse.c \
-	srcs/parse/parse_to_scene.c \
-	srcs/parse/parse_scene.c \
-	srcs/parse/parse_utils.c \
-	srcs/parse/parse_utils2.c \
-	srcs/parse/parse_objects.c \
-	srcs/parse/parse_material.c \
-	srcs/parse/scene_free.c \
-	srcs/vec_ops/vec_ops1.c \
-	srcs/vec_ops/vec_ops2.c \
-	srcs/vec_ops/vec_ops3.c \
-	srcs/rays/intersections.c \
-	srcs/image/image.c \
-	srcs/rays/cylinder.c \
-	srcs/image/color_processing.c \
-	srcs/image/ilumination.c \
-	srcs/image/samples.c \
-	srcs/image/path_tracing.c
+SRC_DIR		:= srcs
 
-OBJS	:= $(SRCS:.c=.o)
+SRCS	:= \
+	main.c \
+	parse/parse.c \
+	parse/parse_to_scene.c \
+	parse/parse_scene.c \
+	parse/parse_utils.c \
+	parse/parse_utils2.c \
+	parse/parse_objects.c \
+	parse/parse_material.c \
+	parse/scene_free.c \
+	vec_utils/vec_ops1.c \
+	vec_utils/vec_ops2.c \
+	vec_utils/vec_ops3.c \
+	objects/intersections.c \
+	image/image.c \
+	objects/cylinder.c \
+	image/color_processing.c \
+	vec_utils/samples.c \
+	path_tracing/path_tracing.c \
+	path_tracing/bdrf_utils.c \
+	path_tracing/pt_utils.c \
+	path_tracing/pt_sampling.c \
+	path_tracing/pt_brdf.c \
+	path_tracing/pt_pdf.c \
+	path_tracing/pt_light.c
+
+OBJS	:= $(addprefix $(SRC_DIR)/,$(SRCS:.c=.o))
 
 all: $(NAME)
 
 $(LIBFT):
-	$(MAKE) -j -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
 
 $(NAME): $(MLX) $(LIBFT) $(OBJS)
@@ -50,12 +58,8 @@ $(NAME): $(MLX) $(LIBFT) $(OBJS)
 $(MLX):
 	@$(MAKE) -C minilibx-linux
 
-%.o: %.c
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
-
-run:
-	@$(MAKE) all -s -j$(JOBS)
-	@./miniRT algo.rt
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
@@ -65,11 +69,7 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 
-re:
-	$(MAKE) fclean
-	$(MAKE) all -j
-
-r: $(LIBFT) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LDFLAGS) -o $(NAME)
+re: fclean
+	$(MAKE) -j$(JOBS) all
 
 .PHONY: all clean fclean re

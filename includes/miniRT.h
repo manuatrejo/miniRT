@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/05 15:54:42 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 15:16:25 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,24 @@
 # define HEIGHT 1000
 # define WIDTH 1000
 # define INFINITE 1e6
-# ifndef SAMPLES_NUMBER
-#  define SAMPLES_NUMBER 1000
+# define MAX_DEPTH 5
+
+# ifndef CHECK_BOARD
+#  define CHECK_BOARD 0
 # endif
-# define MAX_DEPTH 2
+
+# ifndef SAMPLES_NUMBER
+#  define SAMPLES_NUMBER 1
+# endif
 
 # ifndef TYPE_REAL
 #  define TYPE_REAL
 
-typedef float		t_real;
+typedef float			t_real;
 
 # else
 
-typedef double		t_real;
+typedef double			t_real;
 
 # endif
 
@@ -54,14 +59,11 @@ typedef struct s_vec3
 	t_real	z;
 }	t_vec3;
 
-typedef t_vec3	t_point;
-typedef t_vec3	t_color;
-typedef t_vec3	t_dir;
+typedef t_vec3			t_point;
+typedef t_vec3			t_color;
+typedef t_vec3			t_dir;
 
-typedef struct	s_rng
-{
-	__uint32_t state;
-}	t_rng;
+typedef unsigned int	t_rng;
 
 typedef struct s_ray
 {
@@ -87,9 +89,9 @@ typedef struct s_a_light
 typedef struct s_light
 {
 	t_vec3	point;
-	t_real		intensity;
-	t_color		color;
-	bool		defined;
+	t_real	intensity;
+	t_color	color;
+	bool	defined;
 }	t_light;
 
 typedef struct s_sphere
@@ -161,7 +163,7 @@ typedef struct s_scene
 	int			n_spheres;
 	t_plane		*plane;
 	int			n_planes;
-	t_cyl	*cylinder;
+	t_cyl		*cylinder;
 	int			n_cylinders;
 }	t_scene;
 
@@ -210,26 +212,6 @@ typedef struct s_cy_utils
 	t_real	sqrt_d;
 }	t_cy_utils;
 
-typedef struct s_ct
-{
-	t_dir	h;
-	t_dir	l_c;
-	t_real	nl;
-	t_real	nv;
-	t_real	nh;
-	t_real	vh;
-	t_vec3	f0;
-	t_vec3	f;
-	t_real	d;
-	t_real	g;
-	t_real	res;
-	t_vec3	specular;
-	t_vec3	kd;
-	t_color	diffuse;
-	t_color	radiance;
-}	t_ct;
-
-
 t_dir	vec_add(t_dir vec1, t_dir vec2);
 t_dir	vec_sub(t_dir vec1, t_dir vec2);
 t_dir	vec_x_scalar(t_dir vec, t_real scalar);
@@ -273,11 +255,24 @@ void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
 void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
 
 //Post-processing
-int	color_proccessing(t_color color);
+int		color_proccessing(t_color color);
 
 //Ilumination
-t_color	cook_torrance(t_hit	*hit, t_light l, t_dir view);
 t_color	trace_path(t_ray ray, t_scene *scene, t_rng *rng);
+t_vec3	fresnel_schlick(t_real theta, t_vec3 f0);
+t_real	distribution_ggx(t_real nh, t_real roughness);
+t_real	geometry_smith(t_real nv, t_real nl, t_real roughness);
+t_real	clamp_real(t_real v, t_real min, t_real max);
+t_dir	reflect_dir(t_dir v, t_dir n);
+t_color	f0_from_hit(t_hit hit);
+t_color	brdf_eval(t_hit hit, t_dir n, t_dir wo, t_dir wi);
+t_real	ggx_pdf(t_dir n, t_dir wo, t_dir wi, t_real roughness);
+t_real	spec_probability(t_color f0);
+t_dir	sample_brdf_dir(t_hit hit, t_dir wo, t_real p_spec, t_rng *rng);
+t_real	sample_mixed_brdf(t_hit hit, t_dir dir, t_dir *wi, t_color *f);
+t_color	ambient_radiance(t_scene *scene);
+bool	in_shadow(t_scene *scene, t_hit hit, t_dir ldir, t_real dist);
+t_color	direct_light(t_scene *scene, t_hit hit, t_dir wo);
 
 //Samples
 t_rng	init_rng(int x, int y);

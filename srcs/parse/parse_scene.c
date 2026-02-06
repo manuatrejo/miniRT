@@ -27,7 +27,6 @@ bool	parse_amb_light(t_parse **scene, char **split_l)
 	(*scene)->a_light.intensity = (t_real)intensity;
 	if (!parse_color(&(*scene)->a_light.color, split_l[2]))
 		return (ft_putendl_fd("Error: A invalid color", 2), false);
-	(*scene)->a_light.color = vec_div((*scene)->a_light.color, (t_real)255.0);
 	(*scene)->a_light.defined = true;
 	return (true);
 }
@@ -74,7 +73,6 @@ bool	parse_light(t_parse **scene, char **split_l)
 	light->intensity = intensity;
 	if (!parse_color(&light->color, split_l[3]))
 		return (ft_putendl_fd("Error: L invalid color", 2), false);
-	light->color = vec_div(light->color, (t_real)255.0);
 	light->defined = true;
 	return (true);
 }

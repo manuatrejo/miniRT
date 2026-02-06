@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 16:21:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/05 16:07:06 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 14:15:12 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,29 +44,7 @@ t_dir	get_ray_dir(t_vport vport, t_dir ray_dir, t_rng *rng)
 				vec_x_scalar(vport.up, mult_up))));
 }
 
-int	ray_to_color(t_ray ray, t_scene scene)//cambiar por path_trace
-{
-	t_color	color;
-	t_hit	hit;
-	t_dir	view_dir;
-
-	hit = get_closest_hit(ray, &scene);
-	if (hit.t >= INFINITE)
-		return (0x000000);
-	view_dir = vec_x_scalar(ray.dir, (t_real)-1.0);
-	color = (vec_x_scalar(scene.a_light.color, scene.a_light.intensity));
-	color = vec_add(color, cook_torrance(&hit, scene.light, view_dir));
-	return (color_proccessing(color));
-}
-
-/*
-
-
-CAMBIAR LA ORGANIZACIÓN DE ESTAS FUNCIONES PARA CLARIDAD
-
-
-*/
-int	ray_color(t_vport vport, t_scene scene)//get_color mejor?
+int	pixel_color(t_vport vport, t_scene scene)
 {
 	t_color	color;
 	t_ray	ray;
@@ -88,26 +66,26 @@ int	ray_color(t_vport vport, t_scene scene)//get_color mejor?
 
 void	image_loop(t_scene scene, t_mlx *mlx)
 {
-	t_vport	vport;
+	t_vport	vwp;
+	int		running;
 
-	vport.right = vec_normalize(vec_cross_prod(scene.cam.dir,
-			get_dir_up(scene.cam)));
-	vport.up = vec_normalize(vec_cross_prod(vport.right, scene.cam.dir));
-	vport.vport_h = tan(((scene.cam.fov * M_PI) / 180.0) / 2.0);
-	vport.vport_w = vport.vport_h * ((t_real)WIDTH / (t_real)HEIGHT);
-	vport.h_iter = 0;
-	while (vport.h_iter < HEIGHT)
+	running = 1;
+	vwp.right = vec_normalize(vec_cross_prod(scene.cam.dir,
+				get_dir_up(scene.cam)));
+	vwp.up = vec_normalize(vec_cross_prod(vwp.right, scene.cam.dir));
+	vwp.vport_h = tan(((scene.cam.fov * M_PI) / 180.0) / 2.0);
+	vwp.vport_w = vwp.vport_h * ((t_real)WIDTH / (t_real)HEIGHT);
+	vwp.h_iter = 0;
+	while (running && vwp.h_iter < HEIGHT)
 	{
-		vport.w_iter = 0;
-		while (vport.w_iter < WIDTH)
+		vwp.w_iter = 0;
+		while (vwp.w_iter < WIDTH)
 		{
-			//key hook por si salen de la ventana de mlx (manejar con estado)
-			my_put_pixel(mlx, vport.w_iter, vport.h_iter, ray_color(vport, scene));
-			vport.w_iter++;
+			my_put_pixel(mlx, vwp.w_iter, vwp.h_iter, pixel_color(vwp, scene));
+			vwp.w_iter++;
 		}
-		vport.h_iter++;
-		if (vport.h_iter % 10 == 0)
-			printf("%d\n", (int)((vport.h_iter / (float)HEIGHT) * 100));
+		vwp.h_iter++;
+		if (vwp.h_iter % 10 == 0)
+			printf("%d%%\n", (int)((vwp.h_iter / (float)HEIGHT) * 100));
 	}
-	printf("finished\n");
 }

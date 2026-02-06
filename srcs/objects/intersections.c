@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 23:48:25 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/05 14:03:54 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 12:05:43 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,11 @@ static void	intersect_plane(t_ray ray, t_plane plane, t_hit *hit)
 	hit->p = vec_add(ray.orig, vec_x_scalar(ray.dir, t));
 	hit->n = plane.normal;
 	if (dot_product(hit->n, ray.dir) > (t_real)0.0)
-		hit->n = vec_x_scalar(hit->n, (t_real)-1.0);
+		hit->n = vec_x_scalar(hit->n, (t_real) - 1.0);
 	hit->color = plane.color;
 	hit->albedo = plane.albedo;
+	if (CHECK_BOARD && ((int)floorf(hit->p.x) + (int)floorf(hit->p.z)) & 1)
+		hit->albedo = (t_color){0.0, 0.0, 0.0};
 	hit->metallic = plane.metallic;
 	hit->roughness = plane.roughness;
 }
@@ -93,13 +95,13 @@ t_hit	get_closest_hit(t_ray ray, t_scene *scene)
 	t_hit	first_hit;
 	int		i;
 
-	i = 0;
 	first_hit.t = (t_real)INFINITE;
-	while (i < scene->n_spheres)
-		intersect_sphere(ray, scene->sphere[i++], &first_hit);
 	i = 0;
 	while (i < scene->n_planes)
 		intersect_plane(ray, scene->plane[i++], &first_hit);
+	i = 0;
+	while (i < scene->n_spheres)
+		intersect_sphere(ray, scene->sphere[i++], &first_hit);
 	i = 0;
 	while (i < scene->n_cylinders)
 		intersect_cylinder(ray, scene->cylinder[i++], &first_hit);
