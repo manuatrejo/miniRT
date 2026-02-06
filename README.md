@@ -1,14 +1,19 @@
 # Prioridades actualmente
 
-NORMINETTE PATH TRACING
+1 Comprobar el formato de los strings spliteados que sean números. (buscar las funciones que usan atoi y atof)
+comprobar que cada string número sea solo digit o "." y después de "." siempre digit
 
-Aceptar varios puntos de luz
-Comprobar que los números estén bien escritos en el .rt
+2 Hacer algún mapa
 
-Como de bien escritos tienen que estar? si lo que piden en el subject es
-que se compruebe que el .rt esté bien configurado, nada más
+3 Parsear cono, hiperboloide o paraboloide (la que sea más sencilla) y añadir
+  la estructura nueva a t_parse y t_scene igual que las otras
 
-PARSEO: comprobar que cada string número sea digit o . y después de . siempre digit
+4 Función que calcule si el rayo intersecta con el objeto
+  y añadir el bucle a get_closest_hit
+
+5 Cambiar el parseo, función de path_tracing y estructuras para múltiples luces.
+
+6 Hacer el readme si te ha dado tiempo a todo que sería una sacada
 
 
 ## Flujo general del proyecto
@@ -27,4 +32,4 @@ PARSEO: comprobar que cada string número sea digit o . y después de . siempre 
 
 ### 7	Añadir materiales con propiedades distintas *
 
-### 8	Antialiasing, reflejos y objetos con texturas
+### 8	Antialiasing, reflejos y objetos con texturas *
