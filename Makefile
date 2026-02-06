@@ -16,15 +16,18 @@ INCLUDES	:= -I./includes -I./libft
 LIBFT_DIR	:= ./libft
 LIBFT		:= $(LIBFT_DIR)/libft.a
 
+OBJ_DIR		:= obj
 SRC_DIR		:= srcs
 
 SRCS	:= \
 	main.c \
 	parse/parse.c \
 	parse/parse_to_scene.c \
+	parse/parse_to_scene2.c \
 	parse/parse_scene.c \
 	parse/parse_utils.c \
 	parse/parse_utils2.c \
+	parse/parse_utils3.c \
 	parse/parse_objects.c \
 	parse/parse_material.c \
 	parse/scene_free.c \
@@ -44,7 +47,7 @@ SRCS	:= \
 	path_tracing/pt_pdf.c \
 	path_tracing/pt_light.c
 
-OBJS	:= $(addprefix $(SRC_DIR)/,$(SRCS:.c=.o))
+OBJS	:= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 all: $(NAME)
 
@@ -58,12 +61,14 @@ $(NAME): $(MLX) $(LIBFT) $(OBJS)
 $(MLX):
 	@$(MAKE) -C minilibx-linux
 
-$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	rm -f $(OBJS)
+	@find $(SRC_DIR) -name '*.o' -delete 2>/dev/null || true
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean

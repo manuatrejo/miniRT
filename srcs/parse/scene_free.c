@@ -48,10 +48,23 @@ static void	free_cylinders(t_cylind_list *c)
 	}
 }
 
+static void	free_lights(t_light_list *l)
+{
+	t_light_list	*next;
+
+	while (l)
+	{
+		next = l->next;
+		free(l);
+		l = next;
+	}
+}
+
 void	free_scene(t_parse *scene)
 {
 	if (!scene)
 		return ;
+	free_lights(scene->lights);
 	free_spheres(scene->sphere);
 	free_planes(scene->plane);
 	free_cylinders(scene->cyl);

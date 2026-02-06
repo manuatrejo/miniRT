@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:13 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/06 09:31:58 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 20:25:16 by cress            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ bool	parse_range_double(const char *s, t_real min, t_real max, t_real *out)
 
 	if (!s || !out)
 		return (false);
+	if (!parse_float_token(s))
+		return (false);
 	v = ft_atof(s);
 	if (v < min || v > max)
 		return (false);
@@ -55,6 +57,8 @@ bool	parse_positive_double(const char *s, t_real *out)
 	t_real	v;
 
 	if (!s || !out)
+		return (false);
+	if (!parse_float_token(s))
 		return (false);
 	v = ft_atof(s);
 	if (v <= 0.0)

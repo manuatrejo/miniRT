@@ -1,7 +1,7 @@
 # Prioridades actualmente
 
-1 Comprobar el formato de los strings spliteados que sean números. (buscar las funciones que usan atoi y atof)
-comprobar que cada string número sea solo digit o "." y después de "." siempre digit
+## 1 Comprobar el formato de los strings spliteados que sean números. (buscar las funciones que usan atoi y atof)
+## comprobar que cada string número sea solo digit o "." y después de "." siempre digit
 
 2 Hacer algún mapa
 

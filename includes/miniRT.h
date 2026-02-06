@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/06 15:16:25 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 22:21:13 by cress            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,17 @@ typedef struct s_a_light
 
 typedef struct s_light
 {
-	t_vec3	point;
-	t_real	intensity;
-	t_color	color;
-	bool	defined;
+	t_vec3			point;
+	t_real			intensity;
+	t_color			color;
+	bool			defined;
 }	t_light;
+
+typedef struct s_light_list
+{
+	t_light				light;
+	struct s_light_list	*next;
+}	t_light_list;
 
 typedef struct s_sphere
 {
@@ -148,7 +154,7 @@ typedef struct s_parse
 {
 	t_a_light		a_light;
 	t_camera		cam;
-	t_light			light;
+	t_light_list	*lights;
 	t_sphere_list	*sphere;
 	t_plane_list	*plane;
 	t_cylind_list	*cyl;
@@ -158,7 +164,8 @@ typedef struct s_scene
 {
 	t_a_light	a_light;
 	t_camera	cam;
-	t_light		light;
+	t_light		*lights;
+	int			n_lights;
 	t_sphere	*sphere;
 	int			n_spheres;
 	t_plane		*plane;
@@ -236,6 +243,12 @@ bool	parse_dir_normalized(t_dir *dir, char *str);
 bool	parse_coord(t_vec3 *coord, char *str);
 bool	parse_color(t_color *color, char *str);
 bool	parse_range_double(const char *s, t_real min, t_real max, t_real *out);
+bool	parse_digits_color(char **c_split);
+bool	parse_float_token(const char *s);
+bool	parse_digits(char **c_split);
+bool	alloc_scene_arrays(t_scene *scene);
+void	alloc_parse_to_scene2(t_scene scene, t_parse *parse);
+void	alloc_parse_to_scene(t_scene scene, t_parse *parse);
 
 // Element parsers
 bool	parse_amb_light(t_parse **scene, char **split_l);

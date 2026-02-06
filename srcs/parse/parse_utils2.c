@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:18 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 11:12:23 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 20:29:08 by cress            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	parse_coord(t_vec3 *coord, char *str)
 	c_split = ft_split(str, ',');
 	if (!c_split)
 		return (false);
-	if (!ensure_token_count(c_split, 3))
+	if (!ensure_token_count(c_split, 3) || !parse_digits(c_split))
 		return (free_str_array(c_split),
 			ft_putendl_fd("Error: C format", 2), false);
 	coord->x = ft_atof(c_split[0]);
@@ -39,7 +39,7 @@ bool	parse_color(t_color *color, char *str)
 	c_split = ft_split(str, ',');
 	if (!c_split)
 		return (false);
-	if (!ensure_token_count(c_split, 3))
+	if (!ensure_token_count(c_split, 3) || !parse_digits_color(c_split))
 		return (free_str_array(c_split),
 			ft_putendl_fd("Error: C format", 2), false);
 	color->x = ft_atoi(c_split[0]) / (t_real)255.0;

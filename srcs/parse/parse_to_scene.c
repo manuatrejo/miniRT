@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_scene.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:25:34 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 06:19:07 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 22:17:32 by cress            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,43 +51,29 @@ static int	count_cylinders(t_cylind_list *c)
 	return (n);
 }
 
-static bool	alloc_scene_arrays(t_scene *scene)
+static int	count_lights(t_light_list *l)
 {
-	if (scene->n_spheres > 0)
+	int	n;
+
+	n = 0;
+	while (l)
 	{
-		scene->sphere = ft_calloc(scene->n_spheres, sizeof(t_sphere));
-		if (!scene->sphere)
-			return (false);
+		n++;
+		l = l->next;
 	}
-	if (scene->n_planes > 0)
-	{
-		scene->plane = ft_calloc(scene->n_planes, sizeof(t_plane));
-		if (!scene->plane)
-			return (false);
-	}
-	if (scene->n_cylinders > 0)
-	{
-		scene->cylinder = ft_calloc(scene->n_cylinders, sizeof(t_cyl));
-		if (!scene->cylinder)
-			return (false);
-	}
-	return (true);
+	return (n);
 }
 
 t_scene	parse_to_scene(t_parse *parse)
 {
 	t_scene			scene;
-	t_sphere_list	*sp;
-	t_plane_list	*pl;
-	t_cylind_list	*cy;
-	int				i;
 
 	ft_bzero(&scene, sizeof(t_scene));
 	if (!parse)
 		return (scene);
 	scene.a_light = parse->a_light;
 	scene.cam = parse->cam;
-	scene.light = parse->light;
+	scene.n_lights = count_lights(parse->lights);
 	scene.n_spheres = count_spheres(parse->sphere);
 	scene.n_planes = count_planes(parse->plane);
 	scene.n_cylinders = count_cylinders(parse->cyl);
@@ -98,27 +84,7 @@ t_scene	parse_to_scene(t_parse *parse)
 		ft_bzero(&scene, sizeof(t_scene));
 		return (scene);
 	}
-	i = 0;
-	sp = parse->sphere;
-	while (sp)
-	{
-		scene.sphere[i++] = sp->sphere;
-		sp = sp->next;
-	}
-	i = 0;
-	pl = parse->plane;
-	while (pl)
-	{
-		scene.plane[i++] = pl->plane;
-		pl = pl->next;
-	}
-	i = 0;
-	cy = parse->cyl;
-	while (cy)
-	{
-		scene.cylinder[i++] = cy->cyl;
-		cy = cy->next;
-	}
+	alloc_parse_to_scene(scene, parse);
 	free_scene(parse);
 	return (scene);
 }

@@ -1,0 +1,193 @@
+42 EvalHub
+
+    Inicio
+    Common Core
+    Especificaciones
+
+minirt
+Escala para el proyecto minirt
+Debes evaluar a 2 estudiantes en este equipo
+
+Introducción
+
+Por favor respeta las siguientes reglas:
+
+- Mantente educado/a, cortés, respetuoso/a y constructivo/a durante todo el proceso de evaluación. El bienestar de la comunidad depende de ello.
+
+- Identifica junto con la persona (o el grupo) evaluado/a las posibles disfunciones del trabajo. Tómate el tiempo necesario para discutir y debatir los problemas que hayas identificado.
+
+- Debes considerar que puede haber diferencias en cómo tus compañeros hayan entendido las instrucciones del proyecto y el alcance de sus funcionalidades. Mantén siempre la mente abierta y califica con la mayor honestidad posible. La pedagogía solo es válida si la evaluación entre pares se realiza seria y rigurosamente.
+
+Guías
+
+- Solo califica el trabajo que esté en el repositorio GiT del estudiante o del grupo.
+
+- Verifica dos veces que el repositorio GiT pertenece al estudiante o al grupo. Asegúrate de que el trabajo corresponde al proyecto relevante y comprueba también que se use `git clone` en una carpeta vacía.
+
+- Revisa cuidadosamente que no se hayan usado alias maliciosos para engañarte y hacer que evalúes algo distinto del contenido del repositorio oficial.
+
+- Para evitar sorpresas, revisa cuidadosamente que tanto el evaluador como el evaluado hayan revisado los posibles scripts usados para facilitar la corrección.
+
+- Si el estudiante evaluador no ha completado ese proyecto en particular todavía, es obligatorio que lea el subject completo antes de empezar la defensa.
+
+- Usa las banderas disponibles en esta escala para señalar un repositorio vacío, un programa que no funciona, un error de norm, trampa, etc. En estos casos, la calificación termina y la nota final es 0 (o -42 en caso de trampa). Sin embargo, excepto en caso de trampa, se recomienda continuar discutiendo el trabajo (aunque no esté terminado) para identificar cualquier problema que haya provocado el fallo y evitar repetir el mismo error en el futuro.
+
+- Recuerda que durante toda la defensa no puede haber segfault ni ninguna otra terminación inesperada, prematura, no controlada o imprevista del programa; de lo contrario la nota final es 0. Usa la bandera correspondiente.
+
+- Nunca deberías tener que editar ningún archivo excepto el archivo de configuración si existe. Si quieres editar un archivo, tómate el tiempo de explicar los motivos con el/la estudiante evaluado/a y asegúrate de que ambos estáis de acuerdo.
+
+- También debes verificar la ausencia de memory leaks. Cualquier memoria reservada en el heap debe liberarse correctamente antes del final de la ejecución. Se permite usar herramientas disponibles en el ordenador como leaks, valgrind o e_fence. En caso de memory leaks, marca la bandera correspondiente.
+
+Adjuntos
+subject.pdf  minilibx-linux.tgz
+
+Parte obligatoria
+
+Nombre del ejecutable
+
+Comprueba que el proyecto compila bien (sin re-link) cuando ejecutas `make` y que el nombre del ejecutable es `miniRT`.
+
+Sí
+No
+
+Archivo de configuración
+
+Comprueba que puedes configurar la cámara, la luz, el ratio de luz ambiente 
+y objetos simples en el archivo de configuración conforme al formato descrito en el subject.
+
+Comprueba también que el programa devuelve un error
+y termina correctamente cuando el archivo de configuración está mal configurado o si el nombre del archivo no termina con la extensión `.rt`.
+
+Si no, la defensa termina y la nota final será 0.
+
+Sí
+No
+
+Elementos técnicos de la visualización
+
+En esta sección se evaluarán los elementos técnicos de la visualización. 
+Ejecuta el programa y realiza las siguientes pruebas. Si al menos una falla, no se otorgarán puntos en esta sección. Pasa a la siguiente.
+
+- Con un solo parámetro, debe abrirse una ventana al lanzar el programa y debe permanecer abierta durante toda la ejecución.
+
+- Oculta parte de la ventana o toda la ventana con otra ventana o con los bordes de la pantalla, 
+minimiza la ventana de minirt en el dock/barra de tareas y maximízala de nuevo. En todos los casos,
+el contenido de la ventana debe permanecer consistente (minirt no debe cerrarse y debe seguir mostrando correctamente su contenido).
+
+- Cuando cambias la resolución de la ventana, el contenido de la ventana debe permanecer consistente.
+
+- Pulsar `ESC` o hacer clic en la cruz roja de la ventana debe salir del programa correctamente.
+
+Sí
+No
+
+Formas básicas
+
+En esta sección se evaluarán las 3 formas básicas. Ejecuta el programa y realiza las siguientes 3 pruebas. Si al menos una falla, no se otorgarán puntos en esta sección. 
+Pasa a la siguiente.
+
+- Coloca una esfera en las coordenadas {0, 0, 0}. Con la cámara mirando a la esfera, muestra la imagen renderizada. La esfera debe ser visible y mostrarse sin glitches.
+
+- Coloca un plano con un valor de 'z' nulo. Con la cámara mirando al plano, muestra la imagen renderizada. El plano debe ser visible y mostrarse sin glitches.
+
+- Coloca un cilindro extendiéndose a lo largo del eje y. Con la cámara mirando al cilindro, muestra la imagen renderizada. El cilindro debe ser visible y mostrarse sin glitches.
+
+Sí
+No
+
+Traslaciones y rotaciones
+
+En esta sección se evaluará que las transformaciones de rotación y traslación pueden aplicarse a los objetos de la escena.
+Ejecuta el programa y realiza las siguientes pruebas. Si al menos una falla, no se otorgarán puntos en esta sección.
+Pasa a la siguiente.
+
+- Coloca dos esferas en las coordenadas {0, 0, 0}, con la cámara mirando a esas esferas. 
+Luego aplica una traslación a una de las dos esferas orientada en una dirección paralela a la de la cámara,
+a una distancia mayor que el diámetro de la esfera, y muestra la imagen renderizada. 
+Ambas esferas deben ser visibles y mostrarse sin glitches.
+
+- Coloca un cilindro extendiéndose a lo largo del eje y, con la cámara mirando al cilindro.
+Luego aplica una rotación de 90° (PI/2 radianes) alrededor del eje z y muestra la imagen renderizada. El cilindro debe ser visible y mostrarse sin glitches.
+
+Sí
+No
+
+Multi-objetos
+
+En esta sección se evaluará que es posible colocar varios objetos en una misma escena. 
+Ejecuta el programa y realiza las siguientes pruebas. Si al menos una falla, no se otorgarán puntos en esta sección. Pasa a la siguiente.
+
+- Coloca varios objetos intersectándose en la escena, por ejemplo una esfera y un cilindro, y muestra la imagen renderizada.
+Ambos objetos deben ser visibles y mostrarse sin glitches (especialmente donde ambos objetos se intersectan).
+
+- Ejecuta la misma prueba, pero asegúrate de que es posible colocar el mismo objeto varias veces; por ejemplo dos cilindros, dos esferas y un plano.
+
+Sí
+No
+
+Posición y dirección de la cámara
+
+En esta sección se evaluará que se respetan las condiciones de cámara del subject.
+Ejecuta el programa y realiza las siguientes pruebas. Si al menos una falla, no se otorgarán puntos en esta sección. Pasa a la siguiente.
+
+- Genera una escena aleatoria y coloca la cámara extendiéndose a lo largo del eje x apuntando hacia las coordenadas {0, 0, 0} y muestra la imagen renderizada.
+La escena debe ser visible y mostrarse sin glitches.
+
+- Genera una escena aleatoria y coloca la cámara extendiéndose a lo largo del eje y apuntando hacia las coordenadas {0, 0, 0} y muestra la imagen renderizada.
+La escena debe ser visible y mostrarse sin glitches.
+
+- Genera una escena aleatoria y coloca la cámara extendiéndose a lo largo del eje z apuntando hacia las coordenadas {0, 0, 0} y muestra la imagen renderizada.
+La escena debe ser visible y mostrarse sin glitches.
+
+- Genera una escena aleatoria y coloca la cámara en una ubicación aleatoria que no esté en ningún eje ni en una diagonal,
+apuntando hacia las coordenadas {0, 0, 0} y muestra la imagen renderizada. La escena debe ser visible y mostrarse sin glitches.
+
+Sí
+No
+
+Brillo 1/2
+
+En esta sección se evaluará el brillo en los objetos de la escena. 
+Ejecuta el programa y realiza las siguientes pruebas. Si al menos una falla, no se otorgarán puntos en esta sección. Pasa a la siguiente.
+
+- Coloca una esfera en las coordenadas {0, 0, 0}, con la cámara mirando a la esfera, 
+y coloca un foco a la izquierda o derecha de la cámara pero posicionado de tal manera que la esfera quede iluminada lateralmente.
+
+Muestra la imagen renderizada. La esfera debe ser visible, estar iluminada y mostrarse sin glitches.
+
+- Coloca una esfera en unas coordenadas resultantes de una traslación, con la cámara mirando a la esfera,
+y coloca un foco a la izquierda o derecha de la cámara pero posicionado de tal manera que la esfera quede iluminada lateralmente.
+Muestra la imagen renderizada. La esfera debe ser visible, estar correctamente iluminada y mostrarse sin glitches. 
+“Correctamente” significa que el halo de luz debe calcularse después de la traslación y no antes.
+
+Sí
+No
+
+Brillo 2/2
+
+En esta sección se evaluará la gestión de sombras generadas por los objetos de la escena.
+Ejecuta el programa y realiza las siguientes pruebas. Si al menos una falla, no se otorgarán puntos en esta sección. Pasa a la siguiente.
+
+- Coloca un foco vertical, una esfera y un plano. El foco ilumina la posición de la esfera para crear una sombra de la esfera sobre el plano.
+Coloca la cámara a un lado para que podamos ver la esfera, el plano y la sombra de la esfera en el plano. La sombra debe mostrarse correctamente sin glitches.
+
+- Monta una escena compleja con varios objetos como en la ilustración V.6 página 10 del subject. Las sombras deben mostrarse correctamente sin glitches.
+
+Sí
+No
+
+Bonus
+
+Miraremos los bonus si y solo si tu parte obligatoria es excelente.
+Esto significa que debes completar la parte obligatoria de principio a fin, y que tu gestión de errores debe ser impecable, incluso en casos de uso retorcido o incorrecto. Así que si la parte obligatoria no obtuvo todos los puntos durante esta defensa, los bonus serán totalmente ignorados.
+
+¿Muchos bonus?
+
+Un punto por bonus.
+
+    - Reflexión especular.
+    - Ruptura de color: tablero de ajedrez (checkerboard).
+    - Luces coloreadas y múltiples focos (multi-spot).
+    - Otro objeto de 2º grado: cono, hiperboloide, paraboloide...
+    - Manejar texturas bump map.
+

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_scene.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:02 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 10:41:25 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/06 22:38:00 by cress            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,27 @@ bool	parse_camera(t_parse **scene, char **split_l)
 
 bool	parse_light(t_parse **scene, char **split_l)
 {
-	t_light	*light;
-	t_real	intensity;
+	t_light_list	*node;
+	t_real			intensity;
 
 	if (!scene || !*scene)
 		return (false);
 	if (!ensure_token_count(split_l, 4))
 		return (ft_putendl_fd("Error: L format", 2), false);
-	light = &(*scene)->light;
-	if (light->defined)
-		return (ft_putendl_fd("Error: L already defined", 2), false);
-	if (!parse_coord(&light->point, split_l[1]))
-		return (ft_putendl_fd("Error: L invalid position", 2), false);
+	node = ft_calloc(1, sizeof(t_light_list));
+	if (!node)
+		return (false);
+	if (!parse_coord(&node->light.point, split_l[1]))
+		return (free(node),
+			ft_putendl_fd("Error: L invalid position", 2), false);
 	if (!parse_range_double(split_l[2], (t_real)0.0, (t_real)1.0, &intensity))
-		return (ft_putendl_fd("Error: L ratio out of range [0,1]", 2), false);
-	light->intensity = intensity;
-	if (!parse_color(&light->color, split_l[3]))
-		return (ft_putendl_fd("Error: L invalid color", 2), false);
-	light->defined = true;
+		return (free(node),
+			ft_putendl_fd("Error: L ratio out of range [0,1]", 2), false);
+	node->light.intensity = intensity;
+	if (!parse_color(&node->light.color, split_l[3]))
+		return (free(node), ft_putendl_fd("Error: L invalid color", 2), false);
+	node->light.defined = true;
+	node->next = (*scene)->lights;
+	(*scene)->lights = node;
 	return (true);
 }
