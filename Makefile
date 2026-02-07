@@ -31,12 +31,14 @@ SRCS	:= \
 	parse/parse_objects.c \
 	parse/parse_material.c \
 	parse/scene_free.c \
+	parse/scene_free2.c \
 	vec_utils/vec_ops1.c \
 	vec_utils/vec_ops2.c \
 	vec_utils/vec_ops3.c \
 	objects/intersections.c \
 	image/image.c \
 	objects/cylinder.c \
+	objects/cone.c \
 	image/color_processing.c \
 	vec_utils/samples.c \
 	path_tracing/path_tracing.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amonteag <amonteag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 03:25:50 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/06 06:02:58 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 12:50:01 by amonteag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,19 @@ void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
 	hit->albedo = cyl.albedo;
 	hit->metallic = cyl.metallic;
 	hit->roughness = cyl.roughness;
+}
+
+void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit)
+{
+	t_cy_utils	u;
+
+	u.oc = vec_sub(ray.orig, cyl.point);
+	u.card = dot_product(cyl.axis, ray.dir);
+	u.caoc = dot_product(cyl.axis, u.oc);
+	u.a = dot_product(ray.dir, ray.dir) - u.card * u.card;
+	u.b = dot_product(ray.dir, u.oc) - u.card * u.caoc;
+	u.c = dot_product(u.oc, u.oc) - u.caoc * u.caoc - cyl.radius * cyl.radius;
+	u.d = u.b * u.b - u.a * u.c;
+	cylin_sides(ray, cyl, hit, u);
+	cylin_caps(ray, cyl, hit, u);
 }

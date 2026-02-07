@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_scene.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amonteag <amonteag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:25:34 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/06 22:17:32 by cress            ###   ########.fr       */
+/*   Updated: 2026/02/07 12:19:49 by amonteag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ static int	count_cylinders(t_cylind_list *c)
 	return (n);
 }
 
+static int	count_cones(t_cone_list *c)
+{
+	int	n;
+
+	n = 0;
+	while (c)
+	{
+		n++;
+		c = c->next;
+	}
+	return (n);
+}
+
 static int	count_lights(t_light_list *l)
 {
 	int	n;
@@ -77,6 +90,7 @@ t_scene	parse_to_scene(t_parse *parse)
 	scene.n_spheres = count_spheres(parse->sphere);
 	scene.n_planes = count_planes(parse->plane);
 	scene.n_cylinders = count_cylinders(parse->cyl);
+	scene.n_cones = count_cones(parse->cnl);
 	if (!alloc_scene_arrays(&scene))
 	{
 		ft_putendl_fd("Error: malloc scene arrays", 2);
