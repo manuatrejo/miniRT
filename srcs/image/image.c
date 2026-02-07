@@ -52,7 +52,7 @@ int	pixel_color(t_vport vport, t_scene scene)
 	int		i;
 
 	ray.orig = scene.cam.orig;
-	rng = init_rng(vport.vport_w, vport.vport_h);
+	rng = init_rng(vport.w_iter, vport.h_iter);
 	i = 0;
 	color = (t_color){0.0, 0.0, 0.0};
 	while (i++ < SAMPLES_NUMBER)

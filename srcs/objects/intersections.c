@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 23:48:25 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/06 12:05:43 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 13:23:12 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ static void	intersect_plane(t_ray ray, t_plane plane, t_hit *hit)
 	hit->color = plane.color;
 	hit->albedo = plane.albedo;
 	if (CHECK_BOARD && ((int)floorf(hit->p.x) + (int)floorf(hit->p.z)) & 1)
+	{
+		hit->color = (t_color){0.0, 0.0, 0.0};
 		hit->albedo = (t_color){0.0, 0.0, 0.0};
+	}
 	hit->metallic = plane.metallic;
 	hit->roughness = plane.roughness;
 }

@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 11:51:45 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 15:18:52 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ typedef t_vec3			t_color;
 typedef t_vec3			t_dir;
 
 typedef unsigned int	t_rng;
+
+typedef struct s_bsdf_sample
+{
+	t_dir	wi;
+	t_color	f;
+	t_real	pdf;
+}	t_bsdf;
 
 typedef struct s_ray
 {
@@ -219,6 +226,14 @@ typedef struct s_cy_utils
 	t_real	sqrt_d;
 }	t_cy_utils;
 
+typedef struct s_pt_state
+{
+	t_ray	ray;
+	t_color	l;
+	t_color	beta;
+	t_rng	*rng;
+}	t_pt_state;
+
 t_dir	vec_add(t_dir vec1, t_dir vec2);
 t_dir	vec_sub(t_dir vec1, t_dir vec2);
 t_dir	vec_x_scalar(t_dir vec, t_real scalar);
@@ -283,7 +298,7 @@ t_color	brdf_eval(t_hit hit, t_dir n, t_dir wo, t_dir wi);
 t_real	ggx_pdf(t_dir n, t_dir wo, t_dir wi, t_real roughness);
 t_real	spec_probability(t_color f0);
 t_dir	sample_brdf_dir(t_hit hit, t_dir wo, t_real p_spec, t_rng *rng);
-t_real	sample_mixed_brdf(t_hit hit, t_dir dir, t_dir *wi, t_color *f);
+t_bsdf	sample_mixed_brdf(t_hit hit, t_dir wo, t_rng *rng);
 t_color	ambient_radiance(t_scene *scene);
 bool	in_shadow(t_scene *scene, t_hit hit, t_dir ldir, t_real dist);
 t_color	direct_light(t_scene *scene, t_hit hit, t_dir wo);

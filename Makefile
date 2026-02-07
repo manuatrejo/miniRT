@@ -4,9 +4,11 @@ JOBS ?= $(shell nproc 2>/dev/null || echo 4)
 
 SAMPLES ?= 2
 CHECK ?= 1
+LIGHTS ?= 0
+
 
 CC		:= $(if $(shell command -v ccache 2>/dev/null),ccache cc,cc)
-CFLAGS	:= -Wall -Wextra -Werror -I minilibx-linux -I. -g3 -O3 -D SAMPLES_NUMBER=$(SAMPLES) -D CHECK_BOARD=$(CHECK)
+CFLAGS	:= -Wall -Wextra -Werror -I minilibx-linux -I. -g3 -O3 -D SAMPLES_NUMBER=$(SAMPLES) -D CHECK_BOARD=$(CHECK) -D MULT_LIGHTS=$(LIGHTS) 
 LDFLAGS = -L minilibx-linux -lmlx -lXext -lX11 -lm -lz
 
 MLX = minilibx-linux/libmlx.a

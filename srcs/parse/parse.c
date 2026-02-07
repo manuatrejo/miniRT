@@ -6,27 +6,12 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:22 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 05:49:22 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:22:51 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-/*
-Parseo de escena .rt
-
-Elementos esperados:
-A  <ratio 0..1> <R,G,B 0..255>
-C  <x,y,z>      <nx,ny,nz normalizado> <fov 0..180>
-L  <x,y,z>      <ratio 0..1>           <R,G,B 0..255>
-sp <x,y,z>      <diametro >0>          <R,G,B 0..255>
-pl <x,y,z>      <nx,ny,nz normalizado> <R,G,B 0..255>
-cy <x,y,z>      <nx,ny,nz normalizado> <diametro >0> <altura >0> <R,G,B 0..255>
-
-Notas:
-- Ignora líneas vacías o con solo espacios.
-- A, C y L solo pueden aparecer una vez.
-*/
 static bool	valid_filename(char *file)
 {
 	int	len;
@@ -57,8 +42,7 @@ static bool	parse_line(t_parse **scene, char *line)
 		|| (ft_strcmp(split_l[0], "pl") == 0 && parse_plane(scene, split_l))
 		|| (ft_strcmp(split_l[0], "cy") == 0 && parse_cylinder(scene, split_l)))
 		return (free_str_array(split_l), true);
-	return (ft_putendl_fd("Error:\nBad line", 2),
-		free_str_array(split_l), false);
+	return (free_str_array(split_l), false);
 }
 
 t_parse	*parse_file(char *file)
@@ -68,7 +52,7 @@ t_parse	*parse_file(char *file)
 	int		fd;
 
 	if (!valid_filename(file))
-		return (ft_putendl_fd("Error: file must end with .rt", 2), NULL);
+		return (ft_putendl_fd("Error:\n file must end with .rt", 2), NULL);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (perror("Parsing"), NULL);
@@ -85,7 +69,7 @@ t_parse	*parse_file(char *file)
 	}
 	close(fd);
 	if (!scene->a_light.defined || !scene->cam.defined)
-		return (ft_putendl_fd("Error: scene needs at least A and C", 2),
+		return (ft_putendl_fd("Error:\n scene needs at least A and C", 2),
 			free_scene(scene), NULL);
 	return (scene);
 }

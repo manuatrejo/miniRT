@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_to_scene.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:25:34 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/06 22:17:32 by cress            ###   ########.fr       */
+/*   Updated: 2026/02/07 16:59:52 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_scene	parse_to_scene(t_parse *parse)
 	scene.n_cylinders = count_cylinders(parse->cyl);
 	if (!alloc_scene_arrays(&scene))
 	{
-		ft_putendl_fd("Error: malloc scene arrays", 2);
+		ft_putendl_fd("Error:\n malloc scene arrays", 2);
 		free_scene(parse);
 		ft_bzero(&scene, sizeof(t_scene));
 		return (scene);

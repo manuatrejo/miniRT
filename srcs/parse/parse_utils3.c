@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 20:26:07 by cress             #+#    #+#             */
-/*   Updated: 2026/02/06 20:45:05 by cress            ###   ########.fr       */
+/*   Updated: 2026/02/07 15:17:42 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	parse_digits_color(char **c_split)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	while (c_split[i])
