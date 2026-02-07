@@ -4,8 +4,6 @@ JOBS ?= $(shell nproc 2>/dev/null || echo 4)
 
 SAMPLES ?= 2
 CHECK ?= 1
-
-CC		:= $(if $(shell command -v ccache 2>/dev/null),ccache cc,cc)
 CFLAGS	:= -Wall -Wextra -Werror -I minilibx-linux -I. -g3 -O3 -D SAMPLES_NUMBER=$(SAMPLES) -D CHECK_BOARD=$(CHECK)
 LDFLAGS = -L minilibx-linux -lmlx -lXext -lX11 -lm -lz
 
@@ -69,7 +67,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	@find $(SRC_DIR) -name '*.o' -delete 2>/dev/null || true
 	rm -rf $(OBJ_DIR)
 
 fclean: clean

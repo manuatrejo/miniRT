@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_tracing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
+/*   By: amonteag <amonteag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 06:37:49 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/06 21:48:45 by cress            ###   ########.fr       */
+/*   Updated: 2026/02/07 16:36:12 by amonteag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static bool	path_step(t_scene *scene, t_ray *ray, t_color *beta, t_color *l)
 	hit = get_closest_hit(*ray, scene);
 	if (hit.t >= INFINITE)
 		return (miss_step(scene, beta, l));
-	if (dot_product(hit.n, ray->dir) > (t_real)0.0)
-		hit.n = vec_x_scalar(hit.n, (t_real) - 1.0);
 	wo = vec_x_scalar(ray->dir, (t_real)-1.0);
+	if (dot_product(hit.n, wo) < (t_real)0.0)
+		hit.n = vec_x_scalar(hit.n, (t_real)-1.0);
 	if (scene->n_lights > 0)
 		*l = vec_add(*l, vec_prod(*beta, direct_light(scene, hit, wo)));
 	pdf = sample_mixed_brdf(hit, wo, &wi, &f);

@@ -6,7 +6,7 @@
 /*   By: amonteag <amonteag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 12:55:10 by amonteag         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:48:17 by amonteag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,12 @@ typedef struct s_mlx
 	int		endian;
 }	t_mlx;
 
+typedef struct s_app
+{
+	t_scene	*scene;
+	t_mlx		mlx;
+}t_app;
+
 typedef struct s_hit
 {
 	t_dir	n;
@@ -256,6 +262,7 @@ t_real	t_real_sqrt(t_real n);
 
 void	free_scene(t_parse *scene);
 void	free_cones(t_cone_list *cnl);
+void	free_runtime_scene(t_scene *scene);
 
 // Parsing helpers
 bool	line_is_blank(const char *s);

@@ -6,7 +6,7 @@
 /*   By: amonteag <amonteag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 12:45:17 by amonteag          #+#    #+#             */
-/*   Updated: 2026/02/07 12:55:23 by amonteag         ###   ########.fr       */
+/*   Updated: 2026/02/07 16:42:25 by amonteag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,16 @@ void	free_cones(t_cone_list *cnl)
 		free(cnl);
 		cnl = next;
 	}
+}
+
+void	free_runtime_scene(t_scene *scene)
+{
+	if (!scene)
+		return ;
+	free(scene->lights);
+	free(scene->sphere);
+	free(scene->plane);
+	free(scene->cylinder);
+	free(scene->cone);
+	ft_bzero(scene, sizeof(*scene));
 }
