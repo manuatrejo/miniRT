@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cress <cress@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/06 22:21:13 by cress            ###   ########.fr       */
+/*   Updated: 2026/02/07 11:51:45 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ typedef struct s_a_light
 
 typedef struct s_light
 {
-	t_vec3			point;
-	t_real			intensity;
-	t_color			color;
-	bool			defined;
+	t_vec3	point;
+	t_real	intensity;
+	t_color	color;
+	bool	defined;
 }	t_light;
 
 typedef struct s_light_list
@@ -238,14 +238,15 @@ void	free_scene(t_parse *scene);
 // Parsing helpers
 bool	line_is_blank(const char *s);
 bool	ensure_token_count(char **tokens, int expected);
+bool	parse_float_token(const char *s);
+bool	parse_float_body(const char *s, int j);
+bool	parse_digits(char **c_split);
+bool	parse_digits_color(char **c_split);
 bool	parse_positive_double(const char *s, t_real *out);
 bool	parse_dir_normalized(t_dir *dir, char *str);
 bool	parse_coord(t_vec3 *coord, char *str);
 bool	parse_color(t_color *color, char *str);
 bool	parse_range_double(const char *s, t_real min, t_real max, t_real *out);
-bool	parse_digits_color(char **c_split);
-bool	parse_float_token(const char *s);
-bool	parse_digits(char **c_split);
 bool	alloc_scene_arrays(t_scene *scene);
 void	alloc_parse_to_scene2(t_scene scene, t_parse *parse);
 void	alloc_parse_to_scene(t_scene scene, t_parse *parse);
