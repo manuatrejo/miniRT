@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 16:59:52 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:44:55 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,31 @@ bool	parse_cylinder(t_parse **scene, char **split_l)
 			vec_x_scalar(cy->cyl.axis, cy->cyl.length / (t_real)2.0));
 	cy->next = (*scene)->cyl;
 	(*scene)->cyl = cy;
+	return (true);
+}
+
+bool	parse_cone(t_parse **scene, char **split_l)
+{
+	t_cone_list	*cone;
+
+	if (!ensure_token_count(split_l, 6) && !ensure_token_count(split_l, 9))
+		return (ft_putendl_fd("Error: cn format", 2), false);
+	cone = ft_calloc(1, sizeof(t_cone_list));
+	if (!cone)
+		return (false);
+	if (!parse_coord(&cone->cone.point, split_l[1])
+		|| !parse_dir_normalized(&cone->cone.axis, split_l[2])
+		|| !parse_positive_double(split_l[3], &cone->cone.radius)
+		|| !parse_positive_double(split_l[4], &cone->cone.length)
+		|| !parse_color(&cone->cone.color, split_l[5])
+		|| cone->cone.radius <= (t_real)0.0 || cone->cone.length <= (t_real)0.0)
+		return (free(cone), ft_putendl_fd("Error: cn invalid params", 2), false);
+	cone->cone.albedo = cone->cone.color;
+	if (!p_material(&cone->cone.roughness, &cone->cone.metallic,
+			&cone->cone.albedo, split_l))
+		return (free(cone), ft_putendl_fd("Error: cn material", 2), false);
+	cone->cone.radius = (t_real)cone->cone.radius / 2;
+	cone->next = (*scene)->cnl;
+	(*scene)->cnl = cone;
 	return (true);
 }

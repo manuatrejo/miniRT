@@ -6,8 +6,6 @@ SAMPLES ?= 2
 CHECK ?= 1
 LIGHTS ?= 0
 
-
-CC		:= $(if $(shell command -v ccache 2>/dev/null),ccache cc,cc)
 CFLAGS	:= -Wall -Wextra -Werror -I minilibx-linux -I. -g3 -O3 -D SAMPLES_NUMBER=$(SAMPLES) -D CHECK_BOARD=$(CHECK) -D MULT_LIGHTS=$(LIGHTS) 
 LDFLAGS = -L minilibx-linux -lmlx -lXext -lX11 -lm -lz
 
@@ -33,12 +31,14 @@ SRCS	:= \
 	parse/parse_objects.c \
 	parse/parse_material.c \
 	parse/scene_free.c \
+	parse/scene_free2.c \
 	vec_utils/vec_ops1.c \
 	vec_utils/vec_ops2.c \
 	vec_utils/vec_ops3.c \
 	objects/intersections.c \
 	image/image.c \
 	objects/cylinder.c \
+	objects/cone.c \
 	image/color_processing.c \
 	vec_utils/samples.c \
 	path_tracing/path_tracing.c \
@@ -69,7 +69,6 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
-	@find $(SRC_DIR) -name '*.o' -delete 2>/dev/null || true
 	rm -rf $(OBJ_DIR)
 
 fclean: clean

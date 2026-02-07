@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 23:48:25 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 13:23:12 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:42:49 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,20 +78,7 @@ static void	intersect_plane(t_ray ray, t_plane plane, t_hit *hit)
 	hit->roughness = plane.roughness;
 }
 
-static void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit)
-{
-	t_cy_utils	u;
 
-	u.oc = vec_sub(ray.orig, cyl.point);
-	u.card = dot_product(cyl.axis, ray.dir);
-	u.caoc = dot_product(cyl.axis, u.oc);
-	u.a = dot_product(ray.dir, ray.dir) - u.card * u.card;
-	u.b = dot_product(ray.dir, u.oc) - u.card * u.caoc;
-	u.c = dot_product(u.oc, u.oc) - u.caoc * u.caoc - cyl.radius * cyl.radius;
-	u.d = u.b * u.b - u.a * u.c;
-	cylin_sides(ray, cyl, hit, u);
-	cylin_caps(ray, cyl, hit, u);
-}
 
 t_hit	get_closest_hit(t_ray ray, t_scene *scene)
 {
@@ -108,5 +95,8 @@ t_hit	get_closest_hit(t_ray ray, t_scene *scene)
 	i = 0;
 	while (i < scene->n_cylinders)
 		intersect_cylinder(ray, scene->cylinder[i++], &first_hit);
+	i = 0;
+	while (i < scene->n_cones)
+		intersect_cone(ray, scene->cone[i++], &first_hit);
 	return (first_hit);
 }

@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 15:18:52 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:41:08 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,24 @@ typedef struct s_cylind_list
 	struct s_cylind_list	*next;
 }	t_cylind_list;
 
+typedef struct s_cone
+{
+	t_vec3	point;
+	t_dir	axis;
+	t_real	radius;
+	t_real	length;
+	t_color	color;
+	t_color	albedo;
+	t_real	metallic;
+	t_real	roughness;
+}	t_cone;
+
+typedef struct s_cone_list
+{
+	t_cone					cone;
+	struct s_cone_list		*next;
+}	t_cone_list;
+
 typedef struct s_parse
 {
 	t_a_light		a_light;
@@ -165,6 +183,7 @@ typedef struct s_parse
 	t_sphere_list	*sphere;
 	t_plane_list	*plane;
 	t_cylind_list	*cyl;
+	t_cone_list		*cnl;
 }	t_parse;
 
 typedef struct s_scene
@@ -179,6 +198,8 @@ typedef struct s_scene
 	int			n_planes;
 	t_cyl		*cylinder;
 	int			n_cylinders;
+	t_cone		*cone;
+	int			n_cones;
 }	t_scene;
 
 typedef struct s_vport
@@ -201,6 +222,12 @@ typedef struct s_mlx
 	int		line_l;
 	int		endian;
 }	t_mlx;
+
+typedef struct s_app
+{
+	t_scene	*scene;
+	t_mlx		mlx;
+}t_app;
 
 typedef struct s_hit
 {
@@ -249,6 +276,8 @@ t_scene	parse_to_scene(t_parse *parse);
 t_real	t_real_sqrt(t_real n);
 
 void	free_scene(t_parse *scene);
+void	free_cones(t_cone_list *cnl);
+void	free_runtime_scene(t_scene *scene);
 
 // Parsing helpers
 bool	line_is_blank(const char *s);
@@ -273,6 +302,7 @@ bool	parse_light(t_parse **scene, char **split_l);
 bool	parse_sphere(t_parse **scene, char **split_l);
 bool	parse_plane(t_parse **scene, char **split_l);
 bool	parse_cylinder(t_parse **scene, char **split_l);
+bool	parse_cone(t_parse **scene, char **split_l);
 bool	p_material(t_real *r, t_real *m, t_color *albedo, char **split);
 
 // Image
@@ -280,8 +310,11 @@ void	image_loop(t_scene scene, t_mlx *mlx);
 
 // Intersections
 t_hit	get_closest_hit(t_ray ray, t_scene *scene);
+void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit);
+void	intersect_cone(t_ray ray, t_cone cone, t_hit *hit);
 void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
 void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
+void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit);
 
 //Post-processing
 int		color_proccessing(t_color color);

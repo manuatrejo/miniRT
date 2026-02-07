@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:22 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 17:22:51 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:45:46 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static bool	parse_line(t_parse **scene, char *line)
 		|| (ft_strcmp(split_l[0], "L") == 0 && parse_light(scene, split_l))
 		|| (ft_strcmp(split_l[0], "sp") == 0 && parse_sphere(scene, split_l))
 		|| (ft_strcmp(split_l[0], "pl") == 0 && parse_plane(scene, split_l))
-		|| (ft_strcmp(split_l[0], "cy") == 0 && parse_cylinder(scene, split_l)))
+		|| (ft_strcmp(split_l[0], "cy") == 0 && parse_cylinder(scene, split_l))
+		|| (ft_strcmp(split_l[0], "cn") == 0 && parse_cone(scene, split_l)))
 		return (free_str_array(split_l), true);
 	return (free_str_array(split_l), false);
 }

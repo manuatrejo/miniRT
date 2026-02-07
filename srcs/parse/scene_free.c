@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amonteag <amonteag@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:26 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/04 06:18:40 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 12:45:54 by amonteag         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ void	free_scene(t_parse *scene)
 	free_spheres(scene->sphere);
 	free_planes(scene->plane);
 	free_cylinders(scene->cyl);
+	free_cones(scene->cnl);
 	free(scene);
 }
