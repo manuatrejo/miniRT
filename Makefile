@@ -23,6 +23,7 @@ SRCS	:= \
 	main.c \
 	parse/parse.c \
 	parse/parse_to_scene.c \
+	parse/parse_to_scene_utils.c \
 	parse/parse_to_scene2.c \
 	parse/parse_scene.c \
 	parse/parse_utils.c \

@@ -6,76 +6,11 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/30 23:25:34 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 17:45:07 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:40:15 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-
-static int	count_spheres(t_sphere_list *s)
-{
-	int	n;
-
-	n = 0;
-	while (s)
-	{
-		n++;
-		s = s->next;
-	}
-	return (n);
-}
-
-static int	count_planes(t_plane_list *p)
-{
-	int	n;
-
-	n = 0;
-	while (p)
-	{
-		n++;
-		p = p->next;
-	}
-	return (n);
-}
-
-static int	count_cylinders(t_cylind_list *c)
-{
-	int	n;
-
-	n = 0;
-	while (c)
-	{
-		n++;
-		c = c->next;
-	}
-	return (n);
-}
-
-static int	count_cones(t_cone_list *c)
-{
-	int	n;
-
-	n = 0;
-	while (c)
-	{
-		n++;
-		c = c->next;
-	}
-	return (n);
-}
-
-static int	count_lights(t_light_list *l)
-{
-	int	n;
-
-	n = 0;
-	while (l)
-	{
-		n++;
-		l = l->next;
-	}
-	return (n);
-}
 
 t_scene	parse_to_scene(t_parse *parse)
 {

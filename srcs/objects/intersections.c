@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 23:48:25 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 17:42:49 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:30:06 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ static void	intersect_plane(t_ray ray, t_plane plane, t_hit *hit)
 	hit->metallic = plane.metallic;
 	hit->roughness = plane.roughness;
 }
-
-
 
 t_hit	get_closest_hit(t_ray ray, t_scene *scene)
 {

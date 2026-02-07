@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:07 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 17:44:55 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:32:29 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	parse_sphere(t_parse **scene, char **split_l)
 	if (!parse_coord(&sp->sphere.center, split_l[1])
 		|| !parse_positive_double(split_l[2], &sp->sphere.radius)
 		|| !parse_color(&sp->sphere.color, split_l[3]))
-		return (free(sp), ft_putendl_fd("Error:\n sp invalid params", 2), false);
+		return (free(sp), ft_putendl_fd("Error:\n sp params", 2), false);
 	sp->sphere.albedo = sp->sphere.color;
 	if (!p_material(&sp->sphere.roughness, &sp->sphere.metallic,
 			&sp->sphere.albedo, split_l))
@@ -51,7 +51,7 @@ bool	parse_plane(t_parse **scene, char **split_l)
 	if (!parse_coord(&pl->plane.point, split_l[1])
 		|| !parse_dir_normalized(&pl->plane.normal, split_l[2])
 		|| !parse_color(&pl->plane.color, split_l[3]))
-		return (free(pl), ft_putendl_fd("Error:\n pl invalid params", 2), false);
+		return (free(pl), ft_putendl_fd("Error:\n pl params", 2), false);
 	pl->plane.albedo = pl->plane.color;
 	if (!p_material(&pl->plane.roughness, &pl->plane.metallic,
 			&pl->plane.albedo, split_l))
@@ -76,7 +76,7 @@ bool	parse_cylinder(t_parse **scene, char **split_l)
 		|| !parse_positive_double(split_l[4], &cy->cyl.length)
 		|| !parse_color(&cy->cyl.color, split_l[5])
 		|| cy->cyl.radius <= (t_real)0.0 || cy->cyl.length <= (t_real)0.0)
-		return (free(cy), ft_putendl_fd("Error:\n cy invalid params", 2), false);
+		return (free(cy), ft_putendl_fd("Error:\n cy params", 2), false);
 	cy->cyl.albedo = cy->cyl.color;
 	if (!p_material(&cy->cyl.roughness, &cy->cyl.metallic, &cy->cyl.albedo,
 			split_l))
@@ -93,23 +93,19 @@ bool	parse_cone(t_parse **scene, char **split_l)
 {
 	t_cone_list	*cone;
 
-	if (!ensure_token_count(split_l, 6) && !ensure_token_count(split_l, 9))
+	if (!ensure_token_count(split_l, 4) && !ensure_token_count(split_l, 7))
 		return (ft_putendl_fd("Error: cn format", 2), false);
 	cone = ft_calloc(1, sizeof(t_cone_list));
 	if (!cone)
 		return (false);
 	if (!parse_coord(&cone->cone.point, split_l[1])
 		|| !parse_dir_normalized(&cone->cone.axis, split_l[2])
-		|| !parse_positive_double(split_l[3], &cone->cone.radius)
-		|| !parse_positive_double(split_l[4], &cone->cone.length)
-		|| !parse_color(&cone->cone.color, split_l[5])
-		|| cone->cone.radius <= (t_real)0.0 || cone->cone.length <= (t_real)0.0)
-		return (free(cone), ft_putendl_fd("Error: cn invalid params", 2), false);
+		|| !parse_color(&cone->cone.color, split_l[3]))
+		return (free(cone), ft_putendl_fd("Error: cn params", 2), false);
 	cone->cone.albedo = cone->cone.color;
 	if (!p_material(&cone->cone.roughness, &cone->cone.metallic,
 			&cone->cone.albedo, split_l))
 		return (free(cone), ft_putendl_fd("Error: cn material", 2), false);
-	cone->cone.radius = (t_real)cone->cone.radius / 2;
 	cone->next = (*scene)->cnl;
 	(*scene)->cnl = cone;
 	return (true);

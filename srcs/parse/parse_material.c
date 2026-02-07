@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_material.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amonteag <amonteag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 06:23:38 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 13:29:20 by amonteag         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:31:20 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ bool	p_material(t_real *r, t_real *m, t_color *albedo, char **split)
 	n = count_tokens(split);
 	base = 4;
 	if (split[0] && ft_strcmp(split[0], "cy") == 0)
-		base = 6;
-	if (split[0] && ft_strcmp(split[0], "cn") == 0)
 		base = 6;
 	if (n == base)
 		return (true);

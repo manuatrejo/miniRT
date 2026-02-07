@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:39:47 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 17:41:08 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:42:03 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,8 +161,6 @@ typedef struct s_cone
 {
 	t_vec3	point;
 	t_dir	axis;
-	t_real	radius;
-	t_real	length;
 	t_color	color;
 	t_color	albedo;
 	t_real	metallic;
@@ -226,8 +224,8 @@ typedef struct s_mlx
 typedef struct s_app
 {
 	t_scene	*scene;
-	t_mlx		mlx;
-}t_app;
+	t_mlx	mlx;
+}	t_app;
 
 typedef struct s_hit
 {
@@ -240,7 +238,7 @@ typedef struct s_hit
 	t_color	albedo;
 }	t_hit;
 
-typedef struct s_cy_utils
+typedef struct s_obj_utils
 {
 	t_dir	oc;
 	t_real	card;
@@ -251,7 +249,7 @@ typedef struct s_cy_utils
 	t_real	d;
 	t_real	t;
 	t_real	sqrt_d;
-}	t_cy_utils;
+}	t_obj_utils;
 
 typedef struct s_pt_state
 {
@@ -275,6 +273,7 @@ t_parse	*parse_file(char *file);
 t_scene	parse_to_scene(t_parse *parse);
 t_real	t_real_sqrt(t_real n);
 
+//Free
 void	free_scene(t_parse *scene);
 void	free_cones(t_cone_list *cnl);
 void	free_runtime_scene(t_scene *scene);
@@ -294,6 +293,11 @@ bool	parse_range_double(const char *s, t_real min, t_real max, t_real *out);
 bool	alloc_scene_arrays(t_scene *scene);
 void	alloc_parse_to_scene2(t_scene scene, t_parse *parse);
 void	alloc_parse_to_scene(t_scene scene, t_parse *parse);
+int		count_spheres(t_sphere_list *s);
+int		count_planes(t_plane_list *p);
+int		count_cylinders(t_cylind_list *c);
+int		count_cones(t_cone_list *c);
+int		count_lights(t_light_list *l);
 
 // Element parsers
 bool	parse_amb_light(t_parse **scene, char **split_l);
@@ -312,8 +316,8 @@ void	image_loop(t_scene scene, t_mlx *mlx);
 t_hit	get_closest_hit(t_ray ray, t_scene *scene);
 void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit);
 void	intersect_cone(t_ray ray, t_cone cone, t_hit *hit);
-void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
-void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u);
+void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_obj_utils u);
+void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_obj_utils u);
 void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit);
 
 //Post-processing

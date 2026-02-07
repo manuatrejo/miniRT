@@ -6,7 +6,7 @@
 /*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 19:40:02 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 17:18:33 by maanguit         ###   ########.fr       */
+/*   Updated: 2026/02/07 18:31:46 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ bool	parse_light(t_parse **scene, char **split_l)
 			ft_putendl_fd("Error:\nL I out of range [0,1]", 2), false);
 	node->light.intensity = intensity;
 	if (!parse_color(&node->light.color, split_l[3]))
-		return (free(node), ft_putendl_fd("Error:\n L invalid color", 2), false);
+		return (free(node), ft_putendl_fd("Error:\n L color", 2), false);
 	node->light.defined = true;
 	if (!MULT_LIGHTS && (*scene)->lights && (*scene)->lights->light.defined)
 		return (ft_putendl_fd("Error:\n1 Light!", 2), free(node), false);

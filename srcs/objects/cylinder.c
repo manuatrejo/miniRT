@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amonteag <amonteag@student.42.fr>          +#+  +:+       +#+        */
+/*   By: maanguit <maanguit@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 03:25:50 by maanguit          #+#    #+#             */
-/*   Updated: 2026/02/07 12:50:01 by amonteag         ###   ########.fr       */
+/*   Updated: 2026/02/07 17:50:46 by maanguit         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-static void	assign_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
+static void	assign_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_obj_utils u)
 {
 	t_point	pcap;
 	t_dir	v;
@@ -32,7 +32,7 @@ static void	assign_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
 	}
 }
 
-void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
+void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_obj_utils u)
 {
 	u.d = dot_product(ray.dir, cyl.axis);
 	if (double_abs(u.d) < 1e-6)
@@ -48,7 +48,7 @@ void	cylin_caps(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
 		assign_caps(ray, cyl, hit, u);
 }
 
-void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
+void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_obj_utils u)
 {
 	t_real	y;
 
@@ -79,7 +79,7 @@ void	cylin_sides(t_ray ray, t_cyl cyl, t_hit *hit, t_cy_utils u)
 
 void	intersect_cylinder(t_ray ray, t_cyl cyl, t_hit *hit)
 {
-	t_cy_utils	u;
+	t_obj_utils	u;
 
 	u.oc = vec_sub(ray.orig, cyl.point);
 	u.card = dot_product(cyl.axis, ray.dir);
